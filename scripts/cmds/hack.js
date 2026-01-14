@@ -60,7 +60,7 @@ module.exports = {
       var nameInfo = await api.getUserInfo(id);
       var name = nameInfo[id].name;
 
-      var background = ["https://files.catbox.moe/ibmk54.jpg"];
+      var background = ["https://s3.ezgif.com/tmp/ezgif-391d156e76556d7d.jpg"];
       var rd = background[Math.floor(Math.random() * background.length)];
 
       // Avatar
