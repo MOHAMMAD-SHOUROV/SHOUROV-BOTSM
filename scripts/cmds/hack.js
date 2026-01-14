@@ -53,14 +53,14 @@ module.exports = {
 
   onStart: async function ({ api, event }) {
     try {
-      let pathImg = __dirname + "/tmp/background.png";
-      let pathAvt1 = __dirname + "/tmp/Avtmot.png";
+      let pathImg = __dirname + "/shourov/background.png";
+      let pathAvt1 = __dirname + "/shourov/Shourov1.png";
 
       var id = Object.keys(event.mentions)[0] || event.senderID;
       var nameInfo = await api.getUserInfo(id);
       var name = nameInfo[id].name;
 
-      var background = ["https://files.catbox.moe/ibmk54.jpg"];
+      var background = ["https://imgur.com/a/3MW24Yz"];
       var rd = background[Math.floor(Math.random() * background.length)];
 
       // Avatar
