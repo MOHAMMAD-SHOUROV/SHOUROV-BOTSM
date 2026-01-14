@@ -3,7 +3,7 @@
   
   <h1>
     <img src="./dashboard/images/logo-non-bg.png" width="30px" style="vertical-align: middle">
-    Goat Bot V2 - Enhanced Facebook Messenger Bot
+    𝐒𝐇𝐎𝐔𝐑𝐎𝐕_𝐁𝐎𝐓 V2 - Enhanced Facebook Messenger Bot
   </h1>
   
   <p>
