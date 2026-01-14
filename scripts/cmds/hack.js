@@ -56,7 +56,12 @@ module.exports = {
       let pathImg = __dirname + "/tmp/background.png";
       let pathAvt1 = __dirname + "/tmp/Avtmot.png";
 
-      var id = Object.keys(event.mentions)[0] || event.senderID;
+      let id;
+if (event.mentions && Object.keys(event.mentions).length > 0) {
+  id = Object.keys(event.mentions)[0];
+} else {
+  id = event.senderID;
+}
       var nameInfo = await api.getUserInfo(id);
       var name = nameInfo[id].name;
 
