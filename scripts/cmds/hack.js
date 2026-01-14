@@ -42,7 +42,7 @@ async function wrapText(ctx, text, maxWidth) {
 module.exports = {
   config: {
     name: "hack",
-    author: "MAHBUB ULLASH",
+    author: "alihsan shourov",
     countDown: 5,
     role: 0,
     category: "fun",
@@ -53,14 +53,14 @@ module.exports = {
 
   onStart: async function ({ api, event }) {
     try {
-      let pathImg = __dirname + "/shourov/background.png";
-      let pathAvt1 = __dirname + "/shourov/Avtmot.png";
+      let pathImg = __dirname + "/tmp/background.png";
+      let pathAvt1 = __dirname + "/tmp/Avtmot.png";
 
       var id = Object.keys(event.mentions)[0] || event.senderID;
       var nameInfo = await api.getUserInfo(id);
       var name = nameInfo[id].name;
 
-      var background = ["https://s4.ezgif.com/tmp/ezgif-4e865e8571b5d16f.jpg"];
+      var background = ["https://files.catbox.moe/ibmk54.jpg"];
       var rd = background[Math.floor(Math.random() * background.length)];
 
       // Avatar
