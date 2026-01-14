@@ -57,13 +57,24 @@ module.exports = {
       let pathAvt1 = __dirname + "/tmp/Avtmot.png";
 
       let id;
-if (event.mentions && Object.keys(event.mentions).length > 0) {
+
+// 1️⃣ reply check (সবচেয়ে reliable)
+if (event.messageReply) {
+  id = event.messageReply.senderID;
+}
+
+// 2️⃣ mention check
+else if (event.mentions && Object.keys(event.mentions).length > 0) {
   id = Object.keys(event.mentions)[0];
-} else {
+}
+
+// 3️⃣ fallback
+else {
   id = event.senderID;
 }
-      var nameInfo = await api.getUserInfo(id);
-      var name = nameInfo[id].name;
+
+var nameInfo = await api.getUserInfo(id);
+var name = nameInfo[id].name;
 
       var background = ["https://files.catbox.moe/ibmk54.jpg"];
       var rd = background[Math.floor(Math.random() * background.length)];
@@ -98,7 +109,7 @@ if (event.mentions && Object.keys(event.mentions).length > 0) {
       const lines = await wrapText(ctx, name, 1160);
       ctx.fillText(lines.join("\n"), 150, 455);
 
-      ctx.drawImage(baseAvt1, 55, 415, 70, 70);
+      ctx.drawImage(baseAvt1, 55, 410, 70, 70);
 
       const imageBuffer = canvas.toBuffer();
       fs.writeFileSync(pathImg, imageBuffer);
