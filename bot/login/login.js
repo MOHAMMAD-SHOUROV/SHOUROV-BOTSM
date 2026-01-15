@@ -1,5 +1,5 @@
 // set bash title
-process.stdout.write("\x1b]2;Goat Bot V2 - Made by NTKhang\x1b\x5c");
+process.stdout.write("\x1b]2;Shourov Bot V2 - Made by Alihsan Shourov\x1b\x5c");
 const defaultRequire = require;
 
 function decode(text) {
@@ -15,7 +15,7 @@ const path = defaultRequire("path");
 const readline = defaultRequire("readline");
 const fs = defaultRequire("fs-extra");
 const toptp = defaultRequire("totp-generator");
-const { login }= defaultRequire("fca-neokex");
+const { login }= defaultRequire("fca-SHOUROV");
 const qr = new (defaultRequire("qrcode-reader"));
 const Canvas = defaultRequire("canvas");
 const https = defaultRequire("https");
@@ -80,7 +80,7 @@ const titles = [
                 "G O A T B O T  V 2 @" + currentVersion
         ],
         [
-                "GOATBOT V2"
+                "SHOUROV BOT V2"
         ]
 ];
 const maxWidth = process.stdout.columns;
@@ -98,7 +98,7 @@ for (const text of title) {
         const textColor = gradient("#FA8BFF", "#2BD2FF", "#2BFF88")(text);
         centerText(textColor, text.length);
 }
-let subTitle = `GoatBot V2@${currentVersion}- A simple Bot chat messenger use personal account`;
+let subTitle = `SHOUROV BOT V2@${currentVersion}- A simple Bot chat messenger use personal account`;
 const subTitleArray = [];
 if (subTitle.length > maxWidth) {
         while (subTitle.length > maxWidth) {
@@ -114,7 +114,7 @@ else {
 }
 const author = ("Created by NTKhang with ♡");
 const modified = ("Modified by Shourov");
-const srcUrl = ("Source code: https://github.com/ntkhang03/Goat-Bot-V2");
+const srcUrl = ("Source code: https://github.com/MOHAMMAD-SHOUROV/SHOUROV-BOTV2.git");
 const fakeRelease = ("ALL VERSIONS NOT RELEASED HERE ARE FAKE");
 for (const t of subTitleArray) {
         const textColor2 = gradient("#9F98E8", "#AFF6CF")(t);
@@ -726,7 +726,7 @@ async function startBot(loginWithEmail) {
                         log.info("BOT ID", `${global.botID} - ${await getName(global.botID)}`);
                         log.info("PREFIX", global.GoatBot.config.prefix);
                         log.info("LANGUAGE", global.GoatBot.config.language);
-                        log.info("BOT NICK NAME", global.GoatBot.config.nickNameBot || "GOAT BOT");
+                        log.info("BOT NICK NAME", global.GoatBot.config.nickNameBot || "SHOUROV BOTV2");
                         // ———————————————————— GBAN ————————————————————— //
                         let dataGban;
 
