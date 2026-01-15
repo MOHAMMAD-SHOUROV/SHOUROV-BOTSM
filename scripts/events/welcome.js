@@ -1,177 +1,158 @@
-const { getTime } = global.utils;
+   const { getTime } = global.utils;
 const { createCanvas, loadImage, registerFont } = require("canvas");
 const axios = require("axios");
 const fs = require("fs-extra");
 const path = require("path");
 
-/* ================== GLOBAL CACHE DIRS ================== */
-const cacheDir = path.join(__dirname, "cache");
-const fontDir = path.join(cacheDir, "fonts");
-const canvasFontDir = fontDir;
-
-fs.ensureDirSync(cacheDir);
-fs.ensureDirSync(fontDir);
-
-if (!global.temp) global.temp = {};
 if (!global.temp.welcomeEvent) global.temp.welcomeEvent = {};
 
-/* ================== FONT PRELOAD ================== */
+// 🔹 Preload font once
 (async () => {
   try {
-    const fontPath = path.join(fontDir, "tt-modernoir-trial.bold.ttf");
+    const fontPath = path.join(__dirname, "cache", "tt-modernoir-trial.bold.ttf");
     if (!fs.existsSync(fontPath)) {
       console.log("⏬ Downloading welcome font...");
-      const fontUrl =
-        "https://github.com/MR-MAHABUB-004/MAHABUB-BOT-STORAGE/raw/main/fronts/tt-modernoir-trial.bold.ttf";
+      const fontUrl = "https://github.com/MR-MAHABUB-004/MAHABUB-BOT-STORAGE/raw/main/fronts/tt-modernoir-trial.bold.ttf";
       const { data } = await axios.get(fontUrl, { responseType: "arraybuffer" });
-      await fs.writeFile(fontPath, data);
+      await fs.outputFile(fontPath, data);
+      console.log("✅ Font downloaded");
     }
     registerFont(fontPath, { family: "ModernoirBold" });
+    console.log("✅ Font registered: ModernoirBold");
   } catch (err) {
-    console.error("❌ Font preload error:", err.message);
+    console.error("❌ Font preload error:", err);
   }
 })();
 
-/* ================== EXTRA FONTS ================== */
-try {
-  registerFont(path.join(fontDir, "BeVietnamPro-Regular.ttf"), {
-    family: "BeVietnamPro"
-  });
-} catch {}
-
-try {
-  registerFont(path.join(fontDir, "Kanit-SemiBoldItalic.ttf"), {
-    family: "Kanit",
-    weight: "600",
-    style: "italic"
-  });
-} catch {}
-
-try {
-  registerFont(path.join(canvasFontDir, "Rounded.otf"), {
-    family: "Rounded"
-  });
-} catch {}
-
-/* ================== MAIN EXPORT (ONLY ONE) ================== */
 module.exports = {
   config: {
     name: "welcome",
-    version: "4.1-fixed",
-    author: "MR MAHABUB | fixed by Alihsan Shourov",
+    version: "4.1",
+    author: "MR᭄﹅ MAHABUB﹅ メꪜ",
     category: "events"
   },
 
-  onStart: async ({ threadsData, event, message, api, usersData }) => {
-  try {
-    if (event.logMessageType !== "log:subscribe") return;
+  onStart: async ({ threadsData, message, event, api, getLang }) => {
+    try {
+      const { threadID, logMessageType, logMessageData } = event;
 
-const { threadID, logMessageData } = event;
-const added = logMessageData.addedParticipants?.[0];
-if (!added) return;
+      const botID = api.getCurrentUserID();
+      const addedParticipants = logMessageData.addedParticipants || [];
 
-const botID = api.getCurrentUserID();
+      // 🔹 Case 1: Bot added to a new group
+      if (logMessageType === "log:subscribe" && addedParticipants.some(p => p.userFbId === botID)) {
+        // Get nickname from config
+        const nickname = global.GoatBot?.config?.nickNameBot || "Bot";
+        await api.changeNickname(nickname, threadID, botID);
 
-    /* ===== BOT ADDED CASE ===== */
-    if (added.userFbId === botID) {
-  const nickname = global.config.nickNameBot;
-
-  const msg = `
+        // Send connected message
+        const msg = `
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
-${nickname} ☔︎ 𝗖𝗢𝗡𝗡𝗘𝗖𝗧𝗘𝗗 𝗦𝗨𝗖𝗖𝗘𝗦𝗦𝗙𝗨𝗟𝗟
+${nickname}☔︎ 𝗖𝗢𝗡𝗡𝗘𝗖𝗧𝗘𝗗 𝗦𝗨𝗖𝗖𝗘𝗦𝗦𝗙𝗨𝗟𝗟
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 𝗕𝗢𝗧 𝗔𝗗𝗠𝗜𝗡: 𝐀𝐥𝐈𝐇𝐒𝐀𝐍 𝐒𝐇𝐎𝐔𝐑𝐎𝐕
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
-`;
-  await api.sendMessage(msg, threadID);
-  return;
-}
- 
-    // 🔹 Case 2: Normal user added (welcome canvas)
+𝗙𝗔𝗖𝗘𝗕𝗢𝗢𝗞: https://www.facebook.com/shourov.sm24
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+𝗪𝗛𝗔𝗧𝗦𝗔𝗣𝗣: wa.me/+8801709281334
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+𝗧𝗘𝗟𝗘𝗚𝗥𝗔𝗠: t.me/
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+        `;
+        await api.sendMessage(msg, threadID);
+        return; // Stop further execution
+      }
 
-const threadData = await threadsData.get(threadID);
-const threadName = threadData.threadName || "Group Chat";
-const memberCount = (await api.getThreadInfo(threadID)).participantIDs.length;
+      // 🔹 Case 2: Normal user added (welcome canvas)
+      if (logMessageType !== "log:subscribe") return;
 
-const user = added;
-const userName = user.fullName;
-const userID = user.userFbId;
+      const threadData = await threadsData.get(threadID);
+      const threadName = threadData.threadName || "Group Chat";
+      const memberCount = (await api.getThreadInfo(threadID)).participantIDs.length;
 
-  async function createWelcomeCanvas(userID, userName, memberCount) {
-  const canvas = createCanvas(1000, 500);
-  const ctx = canvas.getContext("2d");
+      const user = addedParticipants[0];
+      const userName = user.fullName;
+      const userID = user.userFbId;
 
-  const avatarUrl = `https://graph.facebook.com/${userID}/picture?width=512&height=512`;
+      // Avatar URL
+      const avatarUrl = `https://graph.facebook.com/${userID}/picture?height=720&width=720&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`;
 
-  const backgrounds = [
-    "https://files.catbox.moe/cj68oa.jpg",
-    "https://files.catbox.moe/0n8mmb.jpg",
-    "https://files.catbox.moe/hvynlb.jpg",
-    "https://files.catbox.moe/leyeuq.jpg",
-    "https://files.catbox.moe/7ufcfb.jpg",
-    "https://files.catbox.moe/y78bmv.jpg"
-  ];
-  const randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+      // Random backgrounds
+      const backgrounds = [
+        "https://files.catbox.moe/cj68oa.jpg",
+        "https://files.catbox.moe/0n8mmb.jpg",
+        "https://files.catbox.moe/hvynlb.jpg",
+        "https://files.catbox.moe/leyeuq.jpg",
+        "https://files.catbox.moe/7ufcfb.jpg",
+        "https://files.catbox.moe/y78bmv.jpg"
+      ];
+      const randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
 
-  const bgBuffer = await axios.get(randomBg, { responseType: "arraybuffer" });
-  const bg = await loadImage(bgBuffer.data);
-  ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
+      // Canvas
+      const canvas = createCanvas(1000, 500);
+      const ctx = canvas.getContext("2d");
 
-  let avatar;
-  try {
-    const res = await axios.get(avatarUrl, { responseType: "arraybuffer" });
-    avatar = await loadImage(res.data);
-  } catch {
-    avatar = await loadImage("https://i.ibb.co/2kR9xgQ/default-avatar.png");
+      // Background
+      const bg = await loadImage((await axios.get(randomBg, { responseType: "arraybuffer" })).data);
+      ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
+
+      // Avatar circle
+      let avatar;
+      try {
+        const response = await axios.get(avatarUrl, { responseType: "arraybuffer" });
+        avatar = await loadImage(response.data);
+      } catch {
+        avatar = await loadImage("https://i.ibb.co/2kR9xgQ/default-avatar.png");
+      }
+
+      const avatarSize = 200;
+      const avatarX = canvas.width / 2 - avatarSize / 2;
+      const avatarY = 40;
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(canvas.width / 2, avatarY + avatarSize / 2, avatarSize / 2, 0, Math.PI * 2, true);
+      ctx.closePath();
+      ctx.clip();
+      ctx.drawImage(avatar, avatarX, avatarY, avatarSize, avatarSize);
+      ctx.restore();
+
+      // Text
+      ctx.textAlign = "center";
+      ctx.shadowColor = "rgba(0,0,0,0.6)";
+      ctx.shadowBlur = 6;
+
+      ctx.font = "bold 55px ModernoirBold";
+      ctx.fillStyle = "#ffffff";
+      ctx.fillText(userName, canvas.width / 2, 310);
+
+      ctx.font = "bold 35px ModernoirBold";
+      ctx.fillStyle = "#ffea00";
+      ctx.fillText(threadName.toUpperCase(), canvas.width / 2, 370);
+
+      ctx.font = "bold 30px ModernoirBold";
+      ctx.fillStyle = "#00ffcc";
+      ctx.fillText(`You're the ${memberCount}th member on this group`, canvas.width / 2, 420);
+
+      // Save image
+      const imgPath = path.join(__dirname, "cache", `welcome_${userID}.png`);
+      await fs.ensureDir(path.dirname(imgPath));
+      const out = fs.createWriteStream(imgPath);
+      const stream = canvas.createPNGStream();
+      stream.pipe(out);
+      await new Promise(resolve => out.on("finish", resolve));
+
+      // Send welcome
+      message.send(
+        {
+          body: `Hello ${userName}, welcome to ${threadName} 🎉\nYou're the ${memberCount} member 🎊`,
+          attachment: fs.createReadStream(imgPath)
+        },
+        () => fs.unlinkSync(imgPath)
+      );
+
+    } catch (err) {
+      console.error("❌ Welcome event error:", err);
+    }
   }
-
-  const size = 200;
-  const x = canvas.width / 2 - size / 2;
-  const y = 40;
-
-  ctx.save();
-  ctx.beginPath();
-  ctx.arc(canvas.width / 2, y + size / 2, size / 2, 0, Math.PI * 2);
-  ctx.clip();
-  ctx.drawImage(avatar, x, y, size, size);
-  ctx.restore();
-
-  ctx.textAlign = "center";
-  ctx.fillStyle = "#ffffff";
-  ctx.font = 'bold 48px "BeVietnamPro"';
-  ctx.fillText(userName, canvas.width / 2, 300);
-
-  ctx.font = 'italic 36px "Kanit"';
-  ctx.fillStyle = "#22c55e";
-  ctx.fillText("WELCOME", canvas.width / 2, 350);
-
-  ctx.font = '24px "BeVietnamPro"';
-  ctx.fillStyle = "#ffffff";
-  ctx.fillText(`Member #${memberCount}`, canvas.width / 2, 390);
-
-  return canvas.toBuffer("image/png");
-}
-const buffer = await createWelcomeCanvas(
-  userID,
-  userName,
-  memberCount
-);
-
-
-const imgPath = path.join(cacheDir, `welcome_${Date.now()}.png`);
-await fs.writeFile(imgPath, buffer);
-
-const timeNow = getTime("HH:mm DD/MM/YYYY");
-
-await message.send(
-  {
-    body: `🎉 Welcome ${userName}\n🕒 Joined at: ${timeNow}`,
-    attachment: fs.createReadStream(imgPath)
-  },
-  () => fs.unlinkSync(imgPath)
-);
-} catch (e) {
-  console.error("❌ Welcome Event Error:", e.stack || e.message);
-}
-}
 };
