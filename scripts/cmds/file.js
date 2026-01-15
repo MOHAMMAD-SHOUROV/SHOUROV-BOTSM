@@ -1,5 +1,3 @@
-const fs = require("fs");
-const path = require("path");
 const fs = require('fs');
 
 module.exports = {
@@ -36,42 +34,4 @@ module.exports = {
 		const fileContent = fs.readFileSync(filePath, 'utf8');
 		api.sendMessage({ body: fileContent }, event.threadID);
 	}
-};uto audio reply",
-    category: "auto"
-  },
-
-  handleEvent: async function ({ api, event }) {
-    try {
-      const { threadID, messageID, body } = event;
-      if (!body) return;
-
-      const text = body.toLowerCase();
-
-      const triggers = ["🤭", "🙈", "🙊", "🤫"];
-
-      if (!triggers.some(t => text.includes(t))) return;
-
-      const audioPath = path.join(__dirname, "shourov", "sorom.mp3");
-
-      if (!fs.existsSync(audioPath)) {
-        console.log("[angry] Audio not found:", audioPath);
-        return;
-      }
-
-      api.sendMessage(
-        {
-          body: "আঁমিঁ বলুঁম্ না — আমার শরম লাগে 😳",
-          attachment: fs.createReadStream(audioPath)
-        },
-        threadID,
-        messageID
-      );
-
-    } catch (e) {
-      console.error("[angry] error:", e.message);
-    }
-  },
-
-  // loader এর জন্য দরকার
-  run: async function () {}
 };
