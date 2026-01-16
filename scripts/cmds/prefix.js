@@ -8,7 +8,7 @@ module.exports = {
     name: "prefix",
     version: "1.7",
     prefix: false,
-    author: "Shourob",
+    author: "Alihsan Shourov",
     role: 0,
     description: "Change the bot's command prefix",
     category: "config"
