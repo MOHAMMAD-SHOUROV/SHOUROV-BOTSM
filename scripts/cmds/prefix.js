@@ -1,19 +1,18 @@
-!cmd install prefix.js const axios = require("axios");
+const axios = require("axios");
 const fs = require("fs");
 const path = require("path");
 const utils = global.utils;
 
 module.exports = {
-    config: {
-        name: "Prefix",
-        version: "1.7",
-        prefix: false,
-        author: "MR᭄﹅ MAHABUB﹅ メꪜ",
-        countDown: 5,
-        role: 0,
-        description: "Change the bot's command prefix",
-        category: "config",
-    },
+  config: {
+    name: "prefix",
+    version: "1.7",
+    prefix: false,
+    author: "Shourob",
+    role: 0,
+    description: "Change the bot's command prefix",
+    category: "config"
+  },
 
     langs: {
         en: {
