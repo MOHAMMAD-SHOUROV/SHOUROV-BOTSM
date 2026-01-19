@@ -1,40 +1,57 @@
+const axios = require("axios");
+const fs = require("fs");
+const path = require("path");
+
 module.exports = {
- config: {
- name: "gif",
- version: "1.0",
- author: "Chitron Bhattacharjee",
- countDown: 10,
- role: 0,
- shortDescription: {
- en: "Search for GIFs"
- },
- longDescription: {
- en: "Search and send random GIFs based on keywords"
- },
- category: "fun",
- guide: {
- en: "{pn} [keyword] - Example: {pn} hugging"
- }
- },
+  config: {
+    name: "gf",
+    version: "1.4",
+    author: "SHOUROV",
+    countDown: 5,
+    role: 0,
+    shortDescription: "Send GF pic with title",
+    longDescription: "Sends a GF image with message and author from API or keywords like 'gf de'",
+    category: "fun",
+    guide: "{pn}"
+  },
 
- langs: {
- en: {
- searching: "╔═══❖•°•°•°❖═══╗\n 𝐒𝐡𝐢𝐏𝐮 𝐀𝐢 ✨\n 🔎 %1 gif\n╚═══❖•°•°•°❖═══╝"
- }
- },
+  onStart: async function ({ api, event }) {
+    return sendGf(api, event);
+  },
 
- onStart: async function ({ api, event, args, message, getLang }) {
- const axios = require('axios');
- const keyword = args.join(" ");
- 
- if (!keyword) {
- return message.reply("Please enter a keyword to search for GIFs. Example: +gif hugging");
- }
+  onChat: async function ({ event, api }) {
+    const message = event.body?.toLowerCase();
+    if (!message) return;
 
- try {
- // Show searching message
- message.reply(getLang("searching", keyword));
- 
+    const triggerWords = ["gf", "gf de", "bot gf de"];
+    if (triggerWords.includes(message.trim())) {
+      return sendGf(api, event);
+    }
+  }
+};
+
+async function sendGf(api, event) {
+  try {
+    const res = await axios.get("https://shourov-bot-gf-api.onrender.com/shourovGF");
+    const { title, url } = res.data.data;
+    const authorName = res.data.author.name;
+
+    const fullMessage = `❥┈•${title}\n\nAuthor: ${authorName}....`;
+
+    const imgPath = path.join(__dirname, "cache", `gf.jpg`);
+    const imgRes = await axios.get(url, { responseType: "arraybuffer" });
+    fs.writeFileSync(imgPath, Buffer.from(imgRes.data, "binary"));
+
+    api.sendMessage({
+      body: fullMessage,
+      attachment: fs.createReadStream(imgPath)
+    }, event.threadID, () => fs.unlinkSync(imgPath), event.messageID);
+
+  } catch (err) {
+    console.error(err);
+    api.sendMessage("error fetching data.", event.threadID, event.messageID);
+  }
+} 
  // Search for GIFs using Giphy API
  const response = await axios.get(`https://api.giphy.com/v1/gifs/search`, {
  params: {
