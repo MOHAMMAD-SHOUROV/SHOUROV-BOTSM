@@ -5,35 +5,35 @@
     "2FASecret": "",
     "i_user": "",
     "proxy": null,
-    "userAgent": "Mozilla/5.0 (Linux; Android 14; SM-S928B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Mobile Safari/537.36",
+    "userAgent": "Mozilla/5.0 (Linux; Android 12; M2102J20SG) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.0.0 Mobile Safari/537.36",
     "intervalGetNewCookie": 1440,
     "notes": "time the system automatically retrieves new cookies from email/password, unit is minute, if you set null, the system will not automatically retrieve new cookies, it saves you from having to manually change your cookie every time it expires. recommended set to 1440 (1day) or 4320 (3day).TO BE ABLE TO USE THIS FEATURE YOU NEED TO ENTER THE ACCOUNT PASSWORD ABOVE"
   },
   "antiInbox": false,
   "language": "en",
   "notesLanguage": "change to your language with ISO 639-1 code, available languages: vi (Vietnamese), en (English)",
-  "nickNameBot": "𝐒𝐇𝐎𝐔𝐑𝐎𝐕-𝐁𝐎𝐓",
-  "prefix": "/",
   "adminOnly": {
     "enable": false,
     "ignoreCommand": []
   },
   "adminBot": [
-    "100071971474157",
-    "100014754734049"
+    "100014754734049",
+    "61552591230081"
   ],
-  "premiumUsers": [
-    "100071971474157"
+  "vip": [
+    "100014754734049",
+    "61552591230081"
   ],
-  "devUsers": [
-    "100071971474157"
-  ],
-  "notes_premiumUsers": "List of user IDs with premium access (role 3)",
-  "notes_devUsers": "List of developer IDs with full access (role 4)",
   "whiteListMode": {
     "enable": false,
-    "whiteListIds": [
-      "100071971474157",
+    "whiteListIds": [100014754734049],
+    "notes": "if you enable this feature, only the ids in the whiteListIds section can use the bot"
+  },
+  "nickNameBot": "🪽🐰 Your Baby🔥🩷",
+  "prefix": "!",
+  "api": "https://mahabub-apis.fun",
+  "database": {
+    "type": "mongodb",
       "100071971474157"
     ],
     "notes": "if you enable this feature, only the ids in the whiteListIds list can use the bot"
