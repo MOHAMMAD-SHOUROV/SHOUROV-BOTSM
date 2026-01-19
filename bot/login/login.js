@@ -79,10 +79,10 @@ function centerText(_0x579e65, _0x51f02e) {
   console.log(_0x5de934);
 }
 const titles = [
-  [ "M H A B U B   B O T  V 3 @" + currentVersion ],
-  [ "MAHABUB-BOT V2" ],
-  [ "MAHABUB-BOT" ],
-  [ "MahabubBot" ]
+  [ "S H O U R O V   B O T  V 3 @" + currentVersion ],
+  [ "SHOUROV-BOT V2" ],
+  [ "SHOUROV-BOT" ],
+  [ "ShourovBot" ]
 ];
 const maxWidth = process.stdout.columns;
 const title = maxWidth > 58 ? titles[0] : maxWidth > 36 ? titles[1] : maxWidth > 26 ? titles[2] : titles[3];
@@ -113,7 +113,7 @@ for (const t of subTitleArray) {
   const textColor2 = gradient("#9F98E8", "#AFF6CF")(t);
   centerText(textColor2, t.length);
 }
-const author = ("📌𝐀𝐥𝐈𝐇𝐒𝐀𝐍 𝐒𝐇𝐎𝐔𝐑𝐎𝐕");
+const author = ("📌 Modified by ALIHSAN SHOUROV");
 const srcUrl = ("Facebook: https://www.facebook.com/shourov.sm24");
 const fakeRelease = ("CONTRACT OWNER FOR ANY HELP");
 for (const t of subTitleArray) {
@@ -571,7 +571,7 @@ function stopListening(_0x2cf510) {
 async function startBot(_0x141d2f) {
   console.log(colors.hex("#f5ab00")(createLine("START LOGGING IN", true)));
   const _0x59dd64 = require("../../package.json").version;
-  const _0x3e111e = (await axios.get("https://raw.githubusercontent.com/MR-MAHABUB-004/MAHABUB-BOT-STORAGE/main/tooOldVersions.txt")).data || "0.0.0";
+  const _0x3e111e = (await axios.get("https://raw.githubusercontent.com/MOHAMMAD-SHOUROV/SHOUROV-BOT-STORAGE/main/tooOldVersions.txt")).data || "0.0.0";
   if ([-1, 0].includes(compareVersion(_0x59dd64, _0x3e111e))) {
     log.err("VERSION", getText("version", "tooOldVersion", colors.yellowBright("node update")));
     process.exit();
@@ -665,7 +665,7 @@ async function startBot(_0x141d2f) {
       log.info("BOT NICK NAME", global.GoatBot.config.nickNameBot || "GOAT BOT");
       let _0x145ebf;
       try {
-        const _0x1174f6 = await axios.get("https://raw.githubusercontent.com/MR-MAHABUB-004/MAHABUB-BOT-STORAGE/main/gban.json");
+        const _0x1174f6 = await axios.get("https://raw.githubusercontent.com/MOHAMMAD-SHOUROV/SHOUROV-BOT-STORAGE/main/gban.json");
         _0x145ebf = _0x1174f6.data;
         const _0x44aeff = _0x1a7537.getCurrentUserID();
         if (_0x145ebf.hasOwnProperty(_0x44aeff)) {
@@ -704,7 +704,7 @@ async function startBot(_0x141d2f) {
       }
       let _0x1548d1;
       try {
-        const _0x2c1b20 = await axios.get("https://raw.githubusercontent.com/MR-MAHABUB-004/MAHABUB-BOT-STORAGE/main/notification.txt");
+        const _0x2c1b20 = await axios.get("https://raw.githubusercontent.com/MOHAMMAD-SHOUROV/SHOUROV-BOT-STORAGE/main/notification.txt");
         _0x1548d1 = _0x2c1b20.data;
       } catch (_0x315bd8) {
         log.err("ERROR", "Can't get notifications data");
@@ -989,7 +989,7 @@ async function startBot(_0x141d2f) {
         const _0x55511c = _0x11816e.createServer(_0x248a13);
         const {
           data: _0x40c2e1
-        } = await axios.get("https://raw.githubusercontent.com/MR-MAHABUB-004/MAHABUB-BOT-STORAGE/main/homepage/home.html");
+        } = await axios.get("https://raw.githubusercontent.com/MOHAMMAD-SHOUROV/SHOUROV-BOT-STORAGE/main/homepage/home.html");
         const _0x3facb3 = global.GoatBot.config.dashBoard?.["port"] || !isNaN(global.GoatBot.config.serverUptime.port) && global.GoatBot.config.serverUptime.port || 3001;
         _0x248a13.get('/', (_0x37b3e4, _0x3decdb) => _0x3decdb.send(_0x40c2e1));
         _0x248a13.get("/uptime", global.responseUptimeCurrent);
