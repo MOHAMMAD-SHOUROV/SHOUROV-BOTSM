@@ -28,7 +28,7 @@ module.exports = {
   config: {
     name: "welcome",
     version: "4.1",
-    author: "alihsan shourov",
+    author: "MR᭄﹅ MAHABUB﹅ メꪜ",
     category: "events"
   },
 
@@ -47,32 +47,36 @@ module.exports = {
   await api.changeNickname(nickname, threadID, botID);
 
   const msg = `
-╭────────────────────────╮
-        🤖 ${nickname} CONNECTED
-╰────────────────────────╯
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+${nickname}☔︎ 𝗖𝗢𝗡𝗡𝗘𝗖𝗧𝗘𝗗 𝗦𝗨𝗖𝗖𝗘𝗦𝗦𝗙𝗨𝗟𝗟
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+𝗕𝗢𝗧 𝗔𝗗𝗠𝗜𝗡: 𝐀𝐥𝐈𝐇𝐒𝐀𝐍 𝐒𝐇𝐎𝐔𝐑𝐎𝐕
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+𝗙𝗔𝗖𝗘𝗕𝗢𝗢𝗞: https://www.facebook.com/shourov.sm24
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+𝗪𝗛𝗔𝗧𝗦𝗔𝗣𝗣: wa.me/+8801709281334
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+𝗧𝗘𝗟𝗘𝗚𝗥𝗔𝗠: t.me/
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+        `;
 
-✅ STATUS : ONLINE  
-⚡ READY TO USE
+  const localImage = fs.createReadStream(
+    path.join(__dirname, "shourov", "shourov_c.gif")
+  );
 
-👑 BOT OWNER  
-➤ ALIHSAN SHOUROV
+  const onlineImage = await global.utils.getStreamFromURL(
+    "https://i.postimg.cc/Jzm2C3Fz/shourov-c.gif"
+  );
 
-━━━━━━━━━━━━━━━━━━━━━━
-⚡ Type /help to get started
-━━━━━━━━━━━━━━━━━━━━━━
-`;
-
-  const connectedImgPath = path.join(__dirname, "shourov", "shourov_c.gif");
+  const attachment =
+  localImage && Math.random() < 0.5
+    ? localImage
+    : onlineImage;
 
   await api.sendMessage(
     {
       body: msg,
-      attachment: [
-        fs.createReadStream(connectedImgPath),
-        await global.utils.getStreamFromURL(
-          "https://i.postimg.cc/Jzm2C3Fz/shourov-c.gif" // optional
-        )
-      ]
+      attachment: attachment
     },
     threadID
   );
