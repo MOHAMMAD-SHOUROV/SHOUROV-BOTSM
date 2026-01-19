@@ -1,45 +1,60 @@
 const axios = require("axios");
 
 module.exports = {
-  config: {
-    name: "gf",
-    aliases: ["gf de", "bot gf de", "gf dao"],
-    version: "1.0",
-    author: "SHOUROV",
-    role: 0,
-    category: "fun",
-    shortDescription: "Random GF",
-    longDescription: "Get a random GF",
-    guide: "{pn}"
-  },
+  name: "gf",
+  description: "Get a random GF",
+  usage: "gf / gf de / bot gf de",
 
-  onStart: async function ({ message, event }) {
+  async execute({ api, event }) {
     try {
+      // 🔹 API call
       const res = await axios.get(
         "https://shourov-bot-gf-api.onrender.com/shourovGF"
       );
 
-      const data = res.data.data;
-      const images = res.data.images;
+      const data = res.data?.data;
+      const images = res.data?.images;
 
-      if (!Array.isArray(data) || data.length === 0) {
-        return message.reply("❌ GF পাওয়া যায়নি");
+      if (!data || data.length === 0) {
+        return api.sendMessage(
+          "❌ GF পাওয়া যায়নি",
+          event.threadID,
+          event.messageID
+        );
       }
 
-      const randomText =
-        data[Math.floor(Math.random() * data.length)];
+      // 🔹 Random select
+      const gf = data[Math.floor(Math.random() * data.length)];
+      const img =
+        images && images.length > 0
+          ? images[Math.floor(Math.random() * images.length)]
+          : null;
 
-      const randomImg =
-        images[Math.floor(Math.random() * images.length)];
+      // 🔹 Message text
+      const msg = `${gf.title}\n\n🔗 ${gf.fb}\n\n🤖 Create : SHOUROV-BOT`;
 
-      return message.reply({
-        body: `${randomText.title}\n\n${randomText.fb}`,
-        attachment: await global.utils.getStreamFromURL(randomImg)
-      });
+      // 🔹 Send message
+      if (img) {
+        const stream = await global.utils.getStreamFromURL(img);
+        return api.sendMessage(
+          {
+            body: msg,
+            attachment: stream
+          },
+          event.threadID,
+          event.messageID
+        );
+      } else {
+        return api.sendMessage(msg, event.threadID, event.messageID);
+      }
 
-    } catch (e) {
-      console.log("GF ERROR:", e.message);
-      return message.reply("⚠️ GF আনতে সমস্যা হয়েছে");
+    } catch (err) {
+      console.error("GF ERROR:", err);
+      return api.sendMessage(
+        "⚠️ GF আনতে সমস্যা হয়েছে",
+        event.threadID,
+        event.messageID
+      );
     }
   }
 };
