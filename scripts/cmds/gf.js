@@ -1,104 +1,39 @@
 const axios = require("axios");
-const fs = require("fs");
-const path = require("path");
 
 module.exports = {
   config: {
     name: "gf",
-    version: "1.4",
-    author: "SHOUROV",
-    countDown: 5,
+    version: "1.0",
+    author: "ALIHSAN SHOUROV",
     role: 0,
-    shortDescription: "Send GF pic with title",
-    longDescription: "Sends a GF image with message and author from API or keywords like 'gf de'",
+    shortDescription: "Get random GF",
+    longDescription: "Random GF from API",
     category: "fun",
     guide: "{pn}"
   },
 
-  onStart: async function ({ api, event }) {
-    return sendGf(api, event);
-  },
+  onStart: async function ({ message }) {
+    try {
+      // 👉 এখানে async function এর ভিতরে await OK
+      const response = await axios.get(
+        "https://shourov-bot-gf-api.onrender.com/shourovGF"
+      );
 
-  onChat: async function ({ event, api }) {
-    const message = event.body?.toLowerCase();
-    if (!message) return;
+      const data = response.data.data;
+      const images = response.data.images;
 
-    const triggerWords = ["gf", "gf de", "bot gf de"];
-    if (triggerWords.includes(message.trim())) {
-      return sendGf(api, event);
+      const randomData =
+        data[Math.floor(Math.random() * data.length)];
+      const randomImg =
+        images[Math.floor(Math.random() * images.length)];
+
+      await message.reply({
+        body: `${randomData.title}\n\n${randomData.fb}`,
+        attachment: await global.utils.getStreamFromURL(randomImg)
+      });
+    } catch (err) {
+      console.error(err);
+      message.reply("❌ GF পাওয়া যায়নি");
     }
   }
 };
-
-async function sendGf(api, event) {
-  try {
-    const res = await axios.get("https://shourov-bot-gf-api.onrender.com/shourovGF");
-    const { title, url } = res.data.data;
-    const authorName = res.data.author.name;
-
-    const fullMessage = `❥┈•${title}\n\nAuthor: ${authorName}....`;
-
-    const imgPath = path.join(__dirname, "cache", `gf.jpg`);
-    const imgRes = await axios.get(url, { responseType: "arraybuffer" });
-    fs.writeFileSync(imgPath, Buffer.from(imgRes.data, "binary"));
-
-    api.sendMessage({
-      body: fullMessage,
-      attachment: fs.createReadStream(imgPath)
-    }, event.threadID, () => fs.unlinkSync(imgPath), event.messageID);
-
-  } catch (err) {
-    console.error(err);
-    api.sendMessage("error fetching data.", event.threadID, event.messageID);
-  }
-} 
- // Search for GIFs using Giphy API
- const response = await axios.get(`https://api.giphy.com/v1/gifs/search`, {
- params: {
- api_key: 'wBUEVK7mbqAaiCBRrYKYyEMMqZ1sPujI',
- q: keyword,
- limit: 25,
- offset: 0,
- rating: 'g',
- lang: 'en',
- bundle: 'messaging_non_clips'
- }
- });
-
- const gifs = response.data.data;
- 
- if (gifs.length === 0) {
- return message.reply(`No GIFs found for "${keyword}"`);
- }
-
- // Select a random GIF from the results
- const randomGif = gifs[Math.floor(Math.random() * gifs.length)];
- const gifUrl = randomGif.images.original.url;
-
- // Send the GIF as an attachment
- return message.reply({
- attachment: await global.utils.getStreamFromURL(gifUrl)
- });
- } catch (error) {
- console.error(error);
- return message.reply("Sorry, an error occurred while searching for GIFs.");
- }
- }
-};    const authorName = res.data.author.name;
-
-    const fullMessage = `❥┈•${title}\n\nAuthor: ${authorName}....`;
-
-    const imgPath = path.join(__dirname, "cache", `gf.jpg`);
-    const imgRes = await axios.get(url, { responseType: "arraybuffer" });
-    fs.writeFileSync(imgPath, Buffer.from(imgRes.data, "binary"));
-
-    api.sendMessage({
-      body: fullMessage,
-      attachment: fs.createReadStream(imgPath)
-    }, event.threadID, () => fs.unlinkSync(imgPath), event.messageID);
-
-  } catch (err) {
-    console.error(err);
-    api.sendMessage("error fetching data.", event.threadID, event.messageID);
-  }
-}
