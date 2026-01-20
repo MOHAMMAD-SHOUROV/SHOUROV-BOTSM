@@ -34,8 +34,7 @@
   "api": "https://mahabub-apis.fun",
   "database": {
     "type": "mongodb",
-      "100071971474157"
-    ],
+      "100071971474157",
     "notes": "if you enable this feature, only the ids in the whiteListIds list can use the bot"
   },
   "whiteListModeThread": {
