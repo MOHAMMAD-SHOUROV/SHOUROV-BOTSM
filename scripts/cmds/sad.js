@@ -1,43 +1,25 @@
-const axios = require("axios");
-
 module.exports = {
   config: {
     name: "sad",
     version: "1.0",
-    author: "Alihsan Shourov",
-    countDown: 10,
+    author: "SHOUROV",
+    countDown: 5,
     role: 0,
-    shortDescription: "Sad quote with video",
-    longDescription: "Send random sad quote with video from API",
-    category: "video",
-    guide: "{pn}"
+    category: "Video"
   },
 
   onStart: async function ({ message }) {
     try {
-      // 🔗 তোমার API link
-      const apiUrl = "https://shourov-api.vercel.app/api/sad";
-      // যদি Render হয়:
-      // const apiUrl = "https://your-render-link.onrender.com/sad";
+      const api = "https://shourov-api.vercel.app/api/sad";
+      const res = await global.utils.getJSON(api);
 
-      const res = await axios.get(apiUrl);
-
-      if (!res.data || !res.data.media) {
-        return message.send("❌ Sad data পাওয়া যায়নি");
-      }
-
-      const quote = res.data.quote;
-      const videoUrl = res.data.media;
-      const author = res.data.author?.tag || "SAD";
-
-      await message.send({
-        body: `${quote}\n\n— ${author}`,
-        attachment: await global.utils.getStreamFromURL(videoUrl)
+      return message.send({
+        body: res.quote,
+        attachment: await global.utils.getStreamFromURL(res.video)
       });
 
     } catch (err) {
-      console.error(err);
-      message.send("⚠️ Sad video আনতে সমস্যা হয়েছে");
+      return message.send("🥀 Sad video load হয়নি");
     }
   }
 };
