@@ -1,4 +1,4 @@
-process.stdout.write("\x1b]2;Goat Bot V2 - Made by NTKhang & Modified by MR᭄﹅ MAHABUB﹅ メꪜ\x1b\x5c");
+process.stdout.write("\x1b]2;Goat Bot V2 - Made by NTKhang & Modified by Alihsan Shourov\x1b\x5c");
 function decode(_0x266863) {
   _0x266863 = Buffer.from(_0x266863, "hex").toString("utf-8");
   _0x266863 = Buffer.from(_0x266863, "hex").toString("utf-8");
@@ -92,7 +92,7 @@ for (const text of title) {
   const textColor = gradient("#FA8BFF", "#2BD2FF", "#2BFF88")(text);
   centerText(textColor, text.length);
 }
-let subTitle = "MahabubBot V3@" + currentVersion + "- A simple Modified version of GoatBot V2";
+let subTitle = "ShourovBot V3@" + currentVersion + "- A simple Modified version of GoatBot V2";
 const subTitleArray = [];
 if (subTitle.length > maxWidth) {
   while (subTitle.length > maxWidth) {
