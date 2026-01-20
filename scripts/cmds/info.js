@@ -50,7 +50,7 @@ module.exports = {
             const uptimeString = `${days}d ${hours}h ${minutes}m ${seconds}s`.replace(/^0d 0h /, "");
 
             try {
-                const videoResponse = await axios.get("https://video-api2-tau.vercel.app/api/info");
+                const videoResponse = await axios.get("https://shourov-info.vercel.app/api/info");
                 if (!videoResponse.data || !videoResponse.data.data) {
                     throw new Error("Invalid video API response.");
                 }
