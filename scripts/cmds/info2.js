@@ -25,7 +25,7 @@ module.exports = {
 
       const cachePath = __dirname + "/cache/admin.png";
       const fbPicUrl =
-        "https://graph.facebook.com/100071971474157/picture?height=720&width=720";
+        "https://graph.facebook.com/100071971474157/picture?height=720&width=720&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662";
 
       // download image
       await new Promise((resolve, reject) => {
