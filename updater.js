@@ -1,1 +1,295 @@
-function _0x27ba(_0x141e7a,_0x3b2541){_0x141e7a=_0x141e7a-0xd5;const _0x4c45f5=_0x4c45();let _0x27bab7=_0x4c45f5[_0x141e7a];return _0x27bab7;}const _0x1f6e7a=_0x27ba;(function(_0xc0f079,_0x5a8564){const _0x4a3ebc=_0x27ba,_0xb3a781=_0xc0f079();while(!![]){try{const _0x14a424=-parseInt(_0x4a3ebc(0x127))/0x1+parseInt(_0x4a3ebc(0xe4))/0x2+-parseInt(_0x4a3ebc(0xee))/0x3*(parseInt(_0x4a3ebc(0xf6))/0x4)+parseInt(_0x4a3ebc(0x12e))/0x5*(-parseInt(_0x4a3ebc(0x11d))/0x6)+-parseInt(_0x4a3ebc(0x123))/0x7*(-parseInt(_0x4a3ebc(0xd7))/0x8)+parseInt(_0x4a3ebc(0x135))/0x9*(parseInt(_0x4a3ebc(0x126))/0xa)+parseInt(_0x4a3ebc(0xf5))/0xb*(-parseInt(_0x4a3ebc(0x119))/0xc);if(_0x14a424===_0x5a8564)break;else _0xb3a781['push'](_0xb3a781['shift']());}catch(_0x35dca7){_0xb3a781['push'](_0xb3a781['shift']());}}}(_0x4c45,0x24c4a));const axios=require(_0x1f6e7a(0x120)),_=require('lodash'),fs=require(_0x1f6e7a(0x12a)),path=require(_0x1f6e7a(0x12c)),log=require('./logger/log.js');let chalk;try{chalk=require(_0x1f6e7a(0xd6))['colors'];}catch(_0x268ac3){chalk=require(_0x1f6e7a(0xf3));}const sep=path[_0x1f6e7a(0x13c)],currentConfig=require('./config.json'),langCode=currentConfig[_0x1f6e7a(0x12b)],execSync=require(_0x1f6e7a(0x114))[_0x1f6e7a(0x138)];let pathLanguageFile=process[_0x1f6e7a(0x124)]()+_0x1f6e7a(0xde)+langCode+_0x1f6e7a(0x115);!fs['existsSync'](pathLanguageFile)&&(log[_0x1f6e7a(0x10c)]('LANGUAGE',_0x1f6e7a(0x112)+langCode+',\x20using\x20default\x20language\x20file\x20\x22'+path['normalize'](process['cwd']()+'/languages/en.lang')+'\x22'),pathLanguageFile=process[_0x1f6e7a(0x124)]()+_0x1f6e7a(0x132));const readLanguage=fs[_0x1f6e7a(0xda)](pathLanguageFile,'utf-8'),languageData=readLanguage[_0x1f6e7a(0xea)](/\r?\n|\r/)['filter'](_0x3b389a=>_0x3b389a&&!_0x3b389a[_0x1f6e7a(0x147)]()[_0x1f6e7a(0xe1)]('#')&&!_0x3b389a[_0x1f6e7a(0x147)]()[_0x1f6e7a(0xe1)]('//')&&_0x3b389a!='');global['language']={};function _0x4c45(){const _0x533070=['replace','includes','indexOf','13179WThRZR','https://api.github.com/repos/ntkhang03/Goat-Bot-V2/commits/main','./package.json','green','installingPackages','chalk','slice','11PdnAUv','48DCDiKD','object','[-]','ERROR','updater','backup_','files','join','updateSuccess','length','/backups','reinstallDependencies','findIndex','parse','existsSync','bold','SKIP\x20UPDATE','backupSuccess','#858585','pop','writeFileSync','https://github.com/ntkhang03/Goat-Bot-V2/blob/main/package.json','warn','blue','arraybuffer','keys','data','rawLines','Can\x27t\x20find\x20language\x20file\x20','info','child_process','.lang','yellow','readdirSync','/versions.json','2379324NMHOAe','copyFileSync','string','DEFAULT_','30qCMUhp','version','sort','axios','config.json','DO\x20NOT\x20UPDATE\x20THIS\x20FILE','13244Gpubzm','cwd','skipFile','210gZqDGc','3497laKzTd','configChanged','unlinkSync','fs-extra','language','path','log','134895cXQhEl','filter','latestVersion','Update\x20to\x20version\x20','/languages/en.lang','[↑]','configCommands.json','106479FhdFKL','newVersions','/backup_','execSync','isDirectory','isArray','from','sep','hex','installSuccess','get','blob','red','lstatSync','date','npm\x20install','error','https://raw.githubusercontent.com/ntkhang03/Goat-Bot-V2/main/versions.json','trim','normalize','payload','./func/colors.js','96MqEUVz','committer','floor','readFileSync','getTime','moveSync','restartToApply','/languages/','Can\x27t\x20find\x20text:\x20\x22','cantFindVersion','startsWith','utf-8','deleteFiles','537664KywTsr','inherit','</script>','[!]','mkdirSync','UPDATE','split'];_0x4c45=function(){return _0x533070;};return _0x4c45();}for(const sentence of languageData){const getSeparator=sentence[_0x1f6e7a(0xed)]('='),itemKey=sentence[_0x1f6e7a(0xf4)](0x0,getSeparator)[_0x1f6e7a(0x147)](),itemValue=sentence[_0x1f6e7a(0xf4)](getSeparator+0x1,sentence[_0x1f6e7a(0xff)])[_0x1f6e7a(0x147)](),head=itemKey[_0x1f6e7a(0xf4)](0x0,itemKey['indexOf']('.')),key=itemKey[_0x1f6e7a(0xeb)](head+'.',''),value=itemValue[_0x1f6e7a(0xeb)](/\\n/gi,'\x0a');if(!global[_0x1f6e7a(0x12b)][head])global[_0x1f6e7a(0x12b)][head]={};global[_0x1f6e7a(0x12b)][head][key]=value;}function getText(_0x13daa3,_0x20c1ca,..._0x72bc7a){const _0xe51a71=_0x1f6e7a;if(!global['language'][_0x13daa3]?.[_0x20c1ca])return _0xe51a71(0xdf)+_0x13daa3+'.'+_0x20c1ca+'\x22';let _0x58d41c=global[_0xe51a71(0x12b)][_0x13daa3][_0x20c1ca];for(let _0x50f06b=_0x72bc7a[_0xe51a71(0xff)]-0x1;_0x50f06b>=0x0;_0x50f06b--)_0x58d41c=_0x58d41c[_0xe51a71(0xeb)](new RegExp('%'+(_0x50f06b+0x1),'g'),_0x72bc7a[_0x50f06b]);return _0x58d41c;}const defaultWriteFileSync=fs[_0x1f6e7a(0x10a)],defaulCopyFileSync=fs[_0x1f6e7a(0x11a)];function checkAndAutoCreateFolder(_0x5b2be4){const _0x43f6aa=_0x1f6e7a,_0x51e48f=path[_0x43f6aa(0x148)](_0x5b2be4)[_0x43f6aa(0xea)](sep);let _0x240441='';for(const _0x231e70 in _0x51e48f){_0x240441+=_0x51e48f[_0x231e70]+sep;if(!fs[_0x43f6aa(0x104)](_0x240441))fs[_0x43f6aa(0xe8)](_0x240441);}}function sortObj(_0x14bf75,_0x268d2e,_0x8ae348,_0x25f0de=''){const _0x4e56d1=_0x1f6e7a,_0x28af85=sortObjAsRoot(_0x14bf75,_0x8ae348);_0x25f0de=_0x25f0de||'';_0x25f0de&&(_0x25f0de+='.');for(const _0x1a3211 in _0x28af85){typeof _0x28af85[_0x1a3211]==_0x4e56d1(0xf7)&&!Array[_0x4e56d1(0x13a)](_0x28af85[_0x1a3211])&&_0x28af85[_0x1a3211]!=null&&(_0x25f0de+=_0x1a3211,_0x28af85[_0x1a3211]=sortObj(_0x28af85[_0x1a3211],_0x268d2e,Object[_0x4e56d1(0x10f)](_[_0x4e56d1(0x13f)](_0x268d2e,_0x25f0de)||{}),_0x25f0de),_0x25f0de='');}return _0x28af85;}function sortObjAsRoot(_0x489266,_0x489b52){const _0x19cb8e=_0x1f6e7a,_0x2db583={};for(const _0xb4fea0 in _0x489266){const _0x104974=_0x489b52[_0x19cb8e(0xed)](_0xb4fea0);_0x2db583[_0xb4fea0]=_0x104974==-0x1?0x270f:_0x104974;}const _0x283c0a=Object[_0x19cb8e(0x10f)](_0x2db583)[_0x19cb8e(0x11f)]((_0x534d10,_0x21f543)=>_0x2db583[_0x534d10]-_0x2db583[_0x21f543]),_0x2c0158={};for(const _0x5660bb of _0x283c0a){_0x2c0158[_0x5660bb]=_0x489266[_0x5660bb];}return _0x2c0158;}fs['writeFileSync']=function(_0x47d0a1,_0xde00c8){const _0x3d5875=_0x1f6e7a;_0x47d0a1=path['normalize'](_0x47d0a1);const _0x16f0fa=_0x47d0a1[_0x3d5875(0xea)](sep);if(_0x16f0fa[_0x3d5875(0xff)]>0x1)_0x16f0fa[_0x3d5875(0x109)]();checkAndAutoCreateFolder(_0x16f0fa[_0x3d5875(0xfd)](path[_0x3d5875(0x13c)])),defaultWriteFileSync(_0x47d0a1,_0xde00c8);},fs[_0x1f6e7a(0x11a)]=function(_0x4e4ffd,_0x42393c){const _0xbaa263=_0x1f6e7a;_0x4e4ffd=path[_0xbaa263(0x148)](_0x4e4ffd),_0x42393c=path['normalize'](_0x42393c);const _0x12d263=_0x42393c['split'](sep);if(_0x12d263[_0xbaa263(0xff)]>0x1)_0x12d263[_0xbaa263(0x109)]();checkAndAutoCreateFolder(_0x12d263[_0xbaa263(0xfd)](path[_0xbaa263(0x13c)])),defaulCopyFileSync(_0x4e4ffd,_0x42393c);},((async()=>{const _0x2fc40a=_0x1f6e7a,{data:_0x1e0fba}=await axios[_0x2fc40a(0x13f)](_0x2fc40a(0xef)),_0x4caba3=new Date(_0x1e0fba['commit'][_0x2fc40a(0xd8)][_0x2fc40a(0x143)]);if(new Date()[_0x2fc40a(0xdb)]()-_0x4caba3['getTime']()<0x5*0x3c*0x3e8){const _0x41fea3=Math[_0x2fc40a(0xd9)]((0x5*0x3c*0x3e8-(new Date()['getTime']()-_0x4caba3[_0x2fc40a(0xdb)]()))/0x3e8/0x3c),_0x3cbda3=Math['floor']((0x5*0x3c*0x3e8-(new Date()['getTime']()-_0x4caba3[_0x2fc40a(0xdb)]()))/0x3e8%0x3c);return log[_0x2fc40a(0x145)]('ERROR',getText(_0x2fc40a(0xfa),'updateTooFast',_0x41fea3,_0x3cbda3));}const {data:_0x45c7cd}=await axios[_0x2fc40a(0x13f)](_0x2fc40a(0x146)),_0x3706e3=require(_0x2fc40a(0xf0))[_0x2fc40a(0x11e)],_0x370804=_0x45c7cd[_0x2fc40a(0x102)](_0x459b0d=>_0x459b0d['version']===_0x3706e3);if(_0x370804===-0x1)return log['error'](_0x2fc40a(0xf9),getText(_0x2fc40a(0xfa),_0x2fc40a(0xe0),chalk['yellow'](_0x3706e3)));const _0x1cd4a9=_0x45c7cd['slice'](_0x370804+0x1);if(_0x1cd4a9['length']===0x0)return log[_0x2fc40a(0x113)]('SUCCESS',getText(_0x2fc40a(0xfa),_0x2fc40a(0x130)));fs[_0x2fc40a(0x10a)](process['cwd']()+_0x2fc40a(0x118),JSON['stringify'](_0x45c7cd,null,0x2)),log[_0x2fc40a(0x113)](_0x2fc40a(0xe9),getText(_0x2fc40a(0xfa),_0x2fc40a(0x136),chalk[_0x2fc40a(0x116)](_0x1cd4a9[_0x2fc40a(0xff)])));const _0x220be2={'version':'','files':{},'deleteFiles':{},'reinstallDependencies':![]};for(const _0x527bc2 of _0x1cd4a9){for(const _0x49106a in _0x527bc2[_0x2fc40a(0xfc)]){if([_0x2fc40a(0x121),_0x2fc40a(0x134)]['includes'](_0x49106a)){if(!_0x220be2[_0x2fc40a(0xfc)][_0x49106a])_0x220be2[_0x2fc40a(0xfc)][_0x49106a]={};_0x220be2[_0x2fc40a(0xfc)][_0x49106a]={..._0x220be2[_0x2fc40a(0xfc)][_0x49106a],..._0x527bc2['files'][_0x49106a]};}else _0x220be2[_0x2fc40a(0xfc)][_0x49106a]=_0x527bc2[_0x2fc40a(0xfc)][_0x49106a];if(_0x527bc2[_0x2fc40a(0x101)])_0x220be2[_0x2fc40a(0x101)]=!![];if(_0x220be2[_0x2fc40a(0xe3)][_0x49106a])delete _0x220be2[_0x2fc40a(0xe3)][_0x49106a];for(const _0x408622 in _0x527bc2[_0x2fc40a(0xe3)])_0x220be2[_0x2fc40a(0xe3)][_0x408622]=_0x527bc2[_0x2fc40a(0xe3)][_0x408622];_0x220be2[_0x2fc40a(0x11e)]=_0x527bc2[_0x2fc40a(0x11e)];}}const _0x33b332=process['cwd']()+_0x2fc40a(0x100);if(!fs[_0x2fc40a(0x104)](_0x33b332))fs[_0x2fc40a(0xe8)](_0x33b332);const _0x481748=_0x33b332+_0x2fc40a(0x137)+_0x3706e3,_0xe54cbe=fs[_0x2fc40a(0x117)](process[_0x2fc40a(0x124)]())[_0x2fc40a(0x12f)](_0x29ad7e=>_0x29ad7e[_0x2fc40a(0xe1)](_0x2fc40a(0xfb))&&fs[_0x2fc40a(0x142)](_0x29ad7e)[_0x2fc40a(0x139)]());for(const _0x54f457 of _0xe54cbe)fs[_0x2fc40a(0xdc)](_0x54f457,_0x33b332+'/'+_0x54f457);log[_0x2fc40a(0x113)]('UPDATE',_0x2fc40a(0x131)+chalk[_0x2fc40a(0x116)](_0x220be2[_0x2fc40a(0x11e)]));const {files:_0x2203e5,deleteFiles:_0x462a09,reinstallDependencies:_0x2a16a4}=_0x220be2;for(const _0x35fad7 in _0x2203e5){const _0x3f0888=_0x2203e5[_0x35fad7],_0x1b74e7=process[_0x2fc40a(0x124)]()+'/'+_0x35fad7;let _0x469d27;try{const _0xd414aa=await axios['get']('https://github.com/ntkhang03/Goat-Bot-V2/raw/main/'+_0x35fad7,{'responseType':_0x2fc40a(0x10e)});_0x469d27=_0xd414aa[_0x2fc40a(0x110)];}catch(_0x26100e){continue;}if([_0x2fc40a(0x121),_0x2fc40a(0x134)][_0x2fc40a(0xec)](_0x35fad7)){const _0x569e3a=JSON[_0x2fc40a(0x103)](fs[_0x2fc40a(0xda)](_0x1b74e7,_0x2fc40a(0xe2))),_0x87fe1c=_0x2203e5[_0x35fad7];for(const _0x4e4381 in _0x87fe1c){const _0x19ab0d=_0x87fe1c[_0x4e4381];if(typeof _0x19ab0d==_0x2fc40a(0x11b)&&_0x19ab0d['startsWith'](_0x2fc40a(0x11c))){const _0x561f87=_0x19ab0d[_0x2fc40a(0xeb)](_0x2fc40a(0x11c),'');_['set'](_0x569e3a,_0x4e4381,_[_0x2fc40a(0x13f)](_0x569e3a,_0x561f87));}else _['set'](_0x569e3a,_0x4e4381,_0x19ab0d);}const _0x12715e=sortObj(_0x569e3a,_0x569e3a,Object[_0x2fc40a(0x10f)](_0x569e3a));if(fs['existsSync'](_0x1b74e7))fs[_0x2fc40a(0x11a)](_0x1b74e7,_0x481748+'/'+_0x35fad7);fs['writeFileSync'](_0x1b74e7,JSON['stringify'](_0x12715e,null,0x2)),console[_0x2fc40a(0x12d)](chalk[_0x2fc40a(0x105)][_0x2fc40a(0x10d)]('[↑]'),_0x35fad7),console[_0x2fc40a(0x12d)](chalk[_0x2fc40a(0x105)][_0x2fc40a(0x116)](_0x2fc40a(0xe7)),getText(_0x2fc40a(0xfa),_0x2fc40a(0x128),chalk[_0x2fc40a(0x116)](_0x35fad7)));}else{const _0x2d8eae=['DO\x20NOT\x20UPDATE',_0x2fc40a(0x106),_0x2fc40a(0x122)],_0x48d394=fs[_0x2fc40a(0x104)](_0x1b74e7);if(_0x48d394)fs[_0x2fc40a(0x11a)](_0x1b74e7,_0x481748+'/'+_0x35fad7);const _0x3ac6f7=_0x48d394?fs[_0x2fc40a(0xda)](_0x1b74e7,_0x2fc40a(0xe2))[_0x2fc40a(0x147)]()[_0x2fc40a(0xea)](/\r?\n|\r/)[0x0]:'',_0x2002a8=_0x2d8eae[_0x2fc40a(0x102)](_0x32efa2=>_0x3ac6f7[_0x2fc40a(0xec)](_0x32efa2));if(_0x2002a8!==-0x1){console[_0x2fc40a(0x12d)](chalk['bold']['yellow'](_0x2fc40a(0xe7)),getText(_0x2fc40a(0xfa),_0x2fc40a(0x125),chalk[_0x2fc40a(0x116)](_0x35fad7),chalk[_0x2fc40a(0x116)](_0x2d8eae[_0x2002a8])));continue;}else fs['writeFileSync'](_0x1b74e7,Buffer[_0x2fc40a(0x13b)](_0x469d27)),console[_0x2fc40a(0x12d)](_0x48d394?chalk[_0x2fc40a(0x105)][_0x2fc40a(0x10d)](_0x2fc40a(0x133)):chalk[_0x2fc40a(0x105)][_0x2fc40a(0xf1)]('[+]'),_0x35fad7+':',chalk[_0x2fc40a(0x13d)](_0x2fc40a(0x108))(typeof _0x3f0888==_0x2fc40a(0x11b)?_0x3f0888:typeof _0x3f0888==_0x2fc40a(0xf7)?JSON['stringify'](_0x3f0888,null,0x2):_0x3f0888));}}for(const _0x584ba6 in _0x462a09){const _0x59ff71=_0x462a09[_0x584ba6],_0x385a69=process[_0x2fc40a(0x124)]()+'/'+_0x584ba6;if(fs['existsSync'](_0x385a69)){if(fs[_0x2fc40a(0x142)](_0x385a69)[_0x2fc40a(0x139)]())fs['removeSync'](_0x385a69);else fs[_0x2fc40a(0x11a)](_0x385a69,_0x481748+'/'+_0x584ba6),fs[_0x2fc40a(0x129)](_0x385a69);console['log'](chalk[_0x2fc40a(0x105)][_0x2fc40a(0x141)](_0x2fc40a(0xf8)),_0x584ba6+':',chalk[_0x2fc40a(0x13d)](_0x2fc40a(0x108))(_0x59ff71));}}const {data:_0x1e619d}=await axios[_0x2fc40a(0x13f)](_0x2fc40a(0x10b)),_0x3a4c90=_0x1e619d['split']('data-target=\x22react-app.embeddedData\x22>')[0x1][_0x2fc40a(0xea)](_0x2fc40a(0xe6))[0x0],_0x34e0fa=JSON[_0x2fc40a(0x103)](_0x3a4c90)[_0x2fc40a(0xd5)][_0x2fc40a(0x140)][_0x2fc40a(0x111)][_0x2fc40a(0xfd)]('\x0a');fs[_0x2fc40a(0x10a)](process[_0x2fc40a(0x124)]()+'/package.json',JSON['stringify'](JSON['parse'](_0x34e0fa),null,0x2)),log[_0x2fc40a(0x113)](_0x2fc40a(0xe9),getText(_0x2fc40a(0xfa),_0x2fc40a(0xfe),!_0x2a16a4?getText(_0x2fc40a(0xfa),_0x2fc40a(0xdd)):'')),_0x2a16a4&&(log[_0x2fc40a(0x113)](_0x2fc40a(0xe9),getText(_0x2fc40a(0xfa),_0x2fc40a(0xf2))),execSync(_0x2fc40a(0x144),{'stdio':_0x2fc40a(0xe5)}),log['info']('UPDATE',getText(_0x2fc40a(0xfa),_0x2fc40a(0x13e)))),log[_0x2fc40a(0x113)](_0x2fc40a(0xe9),getText(_0x2fc40a(0xfa),_0x2fc40a(0x107),chalk[_0x2fc40a(0x116)](_0x481748)));})());
+const axios = require('axios');
+const _ = require('lodash');
+const fs = require('fs-extra');
+const path = require('path');
+const log = require('./logger/log.js');
+let chalk;
+try {
+	chalk = require("./func/colors.js").colors;
+}
+catch (e) {
+	chalk = require("chalk");
+}
+
+const sep = path.sep;
+const currentConfig = require('./config.json');
+const langCode = currentConfig.language;
+const execSync = require('child_process').execSync;
+
+let pathLanguageFile = `${process.cwd()}/languages/${langCode}.lang`;
+if (!fs.existsSync(pathLanguageFile)) {
+	log.warn("LANGUAGE", `Can't find language file ${langCode}, using default language file "${path.normalize(`${process.cwd()}/languages/en.lang`)}"`);
+	pathLanguageFile = `${process.cwd()}/languages/en.lang`;
+}
+const readLanguage = fs.readFileSync(pathLanguageFile, "utf-8");
+const languageData = readLanguage
+	.split(/\r?\n|\r/)
+	.filter(line => line && !line.trim().startsWith("#") && !line.trim().startsWith("//") && line != "");
+
+global.language = {};
+for (const sentence of languageData) {
+	const getSeparator = sentence.indexOf('=');
+	const itemKey = sentence.slice(0, getSeparator).trim();
+	const itemValue = sentence.slice(getSeparator + 1, sentence.length).trim();
+	const head = itemKey.slice(0, itemKey.indexOf('.'));
+	const key = itemKey.replace(head + '.', '');
+	const value = itemValue.replace(/\\n/gi, '\n');
+	if (!global.language[head])
+		global.language[head] = {};
+	global.language[head][key] = value;
+}
+
+function getText(head, key, ...args) {
+	if (!global.language[head]?.[key])
+		return `Can't find text: "${head}.${key}"`;
+	let text = global.language[head][key];
+	for (let i = args.length - 1; i >= 0; i--)
+		text = text.replace(new RegExp(`%${i + 1}`, 'g'), args[i]);
+	return text;
+}
+
+const defaultWriteFileSync = fs.writeFileSync;
+const defaulCopyFileSync = fs.copyFileSync;
+
+function checkAndAutoCreateFolder(pathFolder) {
+	const splitPath = path.normalize(pathFolder).split(sep);
+	let currentPath = '';
+	for (const i in splitPath) {
+		currentPath += splitPath[i] + sep;
+		if (!fs.existsSync(currentPath))
+			fs.mkdirSync(currentPath);
+	}
+}
+
+function sortObj(obj, parentObj, rootKeys, stringKey = "") {
+	const root = sortObjAsRoot(obj, rootKeys);
+	stringKey = stringKey || "";
+	if (stringKey) {
+		stringKey += ".";
+	}
+	for (const key in root) {
+		if (
+			typeof root[key] == "object"
+			&& !Array.isArray(root[key])
+			&& root[key] != null
+		) {
+			stringKey += key;
+
+			root[key] = sortObj(
+				root[key],
+				parentObj,
+				Object.keys(_.get(parentObj, stringKey) || {}),
+				stringKey
+			);
+
+			stringKey = "";
+		}
+	}
+	return root;
+}
+
+function sortObjAsRoot(subObj, rootKeys) {
+	const _obj = {};
+	for (const key in subObj) {
+		const indexInRootObj = rootKeys.indexOf(key);
+		_obj[key] = indexInRootObj == -1 ? 9999 : indexInRootObj;
+	}
+	const sortedSubObjKeys = Object.keys(_obj).sort((a, b) => _obj[a] - _obj[b]);
+	const sortedSubObj = {};
+	for (const key of sortedSubObjKeys) {
+		sortedSubObj[key] = subObj[key];
+	}
+
+	return sortedSubObj;
+}
+
+// override fs.writeFileSync and fs.copyFileSync to auto create folder if not exist
+fs.writeFileSync = function (fullPath, data) {
+	fullPath = path.normalize(fullPath);
+	const pathFolder = fullPath.split(sep);
+	if (pathFolder.length > 1)
+		pathFolder.pop();
+	checkAndAutoCreateFolder(pathFolder.join(path.sep));
+	defaultWriteFileSync(fullPath, data);
+};
+
+fs.copyFileSync = function (src, dest) {
+	src = path.normalize(src);
+	dest = path.normalize(dest);
+	const pathFolder = dest.split(sep);
+	if (pathFolder.length > 1)
+		pathFolder.pop();
+	checkAndAutoCreateFolder(pathFolder.join(path.sep));
+	defaulCopyFileSync(src, dest);
+};
+
+(async () => {
+	const { data: lastCommit } = await axios.get('https://api.github.com/repos/ntkhang03/Goat-Bot-V2/commits/main');
+	const lastCommitDate = new Date(lastCommit.commit.committer.date);
+	// if < 5min then stop update and show message
+	if (new Date().getTime() - lastCommitDate.getTime() < 5 * 60 * 1000) {
+		const minutes = Math.floor((5 * 60 * 1000 - (new Date().getTime() - lastCommitDate.getTime())) / 1000 / 60);
+		const seconds = Math.floor((5 * 60 * 1000 - (new Date().getTime() - lastCommitDate.getTime())) / 1000 % 60);
+		return log.error("ERROR", getText("updater", "updateTooFast", minutes, seconds));
+	}
+
+	const { data: versions } = await axios.get('https://raw.githubusercontent.com/ntkhang03/Goat-Bot-V2/main/versions.json');
+	const currentVersion = require('./package.json').version;
+	const indexCurrentVersion = versions.findIndex(v => v.version === currentVersion);
+	if (indexCurrentVersion === -1)
+		return log.error("ERROR", getText("updater", "cantFindVersion", chalk.yellow(currentVersion)));
+	const versionsNeedToUpdate = versions.slice(indexCurrentVersion + 1);
+	if (versionsNeedToUpdate.length === 0)
+		return log.info("SUCCESS", getText("updater", "latestVersion"));
+
+	fs.writeFileSync(`${process.cwd()}/versions.json`, JSON.stringify(versions, null, 2));
+	log.info("UPDATE", getText("updater", "newVersions", chalk.yellow(versionsNeedToUpdate.length)));
+
+	const createUpdate = {
+		version: "",
+		files: {},
+		deleteFiles: {},
+		reinstallDependencies: false
+	};
+
+	for (const version of versionsNeedToUpdate) {
+		for (const filePath in version.files) {
+			if (["config.json", "configCommands.json"].includes(filePath)) {
+				if (!createUpdate.files[filePath])
+					createUpdate.files[filePath] = {};
+
+				createUpdate.files[filePath] = {
+					...createUpdate.files[filePath],
+					...version.files[filePath]
+				};
+			}
+			else
+				createUpdate.files[filePath] = version.files[filePath];
+
+			if (version.reinstallDependencies)
+				createUpdate.reinstallDependencies = true;
+
+			if (createUpdate.deleteFiles[filePath])
+				delete createUpdate.deleteFiles[filePath];
+
+			for (const filePath in version.deleteFiles)
+				createUpdate.deleteFiles[filePath] = version.deleteFiles[filePath];
+
+			createUpdate.version = version.version;
+		}
+	}
+
+	const backupsPath = `${process.cwd()}/backups`;
+	if (!fs.existsSync(backupsPath))
+		fs.mkdirSync(backupsPath);
+	const folderBackup = `${backupsPath}/backup_${currentVersion}`;
+
+	// find all folders start with "backup_" (these folders are created by updater in old version), and move to backupsPath
+	const foldersBackup = fs.readdirSync(process.cwd())
+		.filter(folder => folder.startsWith("backup_") && fs.lstatSync(folder).isDirectory());
+	for (const folder of foldersBackup)
+		fs.moveSync(folder, `${backupsPath}/${folder}`);
+
+	log.info("UPDATE", `Update to version ${chalk.yellow(createUpdate.version)}`);
+	const { files, deleteFiles, reinstallDependencies } = createUpdate;
+
+	for (const filePath in files) {
+		const description = files[filePath];
+		const fullPath = `${process.cwd()}/${filePath}`;
+		let getFile;
+		try {
+			const response = await axios.get(`https://github.com/ntkhang03/Goat-Bot-V2/raw/main/${filePath}`, {
+				responseType: 'arraybuffer'
+			});
+			getFile = response.data;
+		}
+		catch (e) {
+			continue;
+		}
+
+		if (["config.json", "configCommands.json"].includes(filePath)) {
+			const currentConfig = JSON.parse(fs.readFileSync(fullPath, "utf-8"));
+			const configValueUpdate = files[filePath];
+
+			for (const key in configValueUpdate) {
+				const value = configValueUpdate[key];
+				if (typeof value == "string" && value.startsWith("DEFAULT_")) {
+					const keyOfDefault = value.replace("DEFAULT_", "");
+					_.set(currentConfig, key, _.get(currentConfig, keyOfDefault));
+				}
+				else
+					_.set(currentConfig, key, value);
+			}
+
+			const currentConfigSorted = sortObj(currentConfig, currentConfig, Object.keys(currentConfig));
+
+			if (fs.existsSync(fullPath))
+				fs.copyFileSync(fullPath, `${folderBackup}/${filePath}`);
+			fs.writeFileSync(fullPath, JSON.stringify(currentConfigSorted, null, 2));
+
+			console.log(chalk.bold.blue('[↑]'), filePath);
+			console.log(chalk.bold.yellow('[!]'), getText("updater", "configChanged", chalk.yellow(filePath)));
+		}
+		else {
+			const contentsSkip = ["DO NOT UPDATE", "SKIP UPDATE", "DO NOT UPDATE THIS FILE"];
+			const fileExists = fs.existsSync(fullPath);
+
+			// if file exists, backup it
+			if (fileExists)
+				fs.copyFileSync(fullPath, `${folderBackup}/${filePath}`);
+
+			// check first line of file, if it contains any contentsSkip, skip update this file
+			const firstLine = fileExists ? fs.readFileSync(fullPath, "utf-8").trim().split(/\r?\n|\r/)[0] : "";
+			const indexSkip = contentsSkip.findIndex(c => firstLine.includes(c));
+			if (indexSkip !== -1) {
+				console.log(chalk.bold.yellow('[!]'), getText("updater", "skipFile", chalk.yellow(filePath), chalk.yellow(contentsSkip[indexSkip])));
+				continue;
+			}
+			else {
+				fs.writeFileSync(fullPath, Buffer.from(getFile));
+
+				console.log(
+					fileExists ? chalk.bold.blue('[↑]') : chalk.bold.green('[+]'),
+					`${filePath}:`,
+					chalk.hex('#858585')(
+						typeof description == "string" ?
+							description :
+							typeof description == "object" ?
+								JSON.stringify(description, null, 2) :
+								description
+					)
+				);
+			}
+		}
+	}
+
+	for (const filePath in deleteFiles) {
+		const description = deleteFiles[filePath];
+		const fullPath = `${process.cwd()}/${filePath}`;
+		if (fs.existsSync(fullPath)) {
+			if (fs.lstatSync(fullPath).isDirectory())
+				fs.removeSync(fullPath);
+			else {
+				fs.copyFileSync(fullPath, `${folderBackup}/${filePath}`);
+				fs.unlinkSync(fullPath);
+			}
+			console.log(chalk.bold.red('[-]'), `${filePath}:`, chalk.hex('#858585')(description));
+		}
+	}
+
+	const { data: packageHTML } = await axios.get("https://github.com/ntkhang03/Goat-Bot-V2/blob/main/package.json");
+	const json = packageHTML.split('data-target="react-app.embeddedData">')[1].split('</script>')[0];
+	const packageJSON = JSON.parse(json).payload.blob.rawLines.join('\n');
+
+	fs.writeFileSync(`${process.cwd()}/package.json`, JSON.stringify(JSON.parse(packageJSON), null, 2));
+	log.info("UPDATE", getText("updater", "updateSuccess", !reinstallDependencies ? getText("updater", "restartToApply") : ""));
+
+	// npm install
+	if (reinstallDependencies) {
+		log.info("UPDATE", getText("updater", "installingPackages"));
+		execSync("npm install", { stdio: 'inherit' });
+		log.info("UPDATE", getText("updater", "installSuccess"));
+	}
+
+	log.info("UPDATE", getText("updater", "backupSuccess", chalk.yellow(folderBackup)));
+})();
