@@ -40,7 +40,7 @@ module.exports = {
         Math.floor((up % 3600) / 60) + "m " +
         Math.floor(up % 60) + "s";
 
-      const res = await axios.get("https://shourov-info.vercel.app/api/info");
+      const res = await axios.get("https://shourov-video-api1.onrender.com/api/admin");
       let video = res.data.data;
 
       if (video.includes("drive.google.com")) {
