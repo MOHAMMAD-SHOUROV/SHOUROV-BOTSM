@@ -5,25 +5,28 @@ const path = require("path");
 module.exports = {
   config: {
     name: "caption",
-    version: "1.0.0",
+    version: "1.1.0",
     author: "Alihsan Shourov",
     role: 0,
     category: "fun",
-    guide: "Just send /"
+    usePrefix: false // 🔥 prefix বাদ
   },
 
-  // ❌ prefix command disable
+  // command দিয়ে কিছু করবে না
   onStart: async function () {},
 
-  // ✅ ONLY "/" MESSAGE DETECT
-  handleEvent: async function ({ api, event }) {
+  // ✅ MESSAGE LISTENER
+  onChat: async function ({ api, event }) {
     try {
       if (!event.body) return;
-      if (event.body.trim() !== "/") return;
+
+      // 🔑 TRIGGER (// লিখলে কাজ করবে)
+      if (event.body.trim() !== "//") return;
 
       const cacheDir = path.join(__dirname, "cache");
-      if (!fs.existsSync(cacheDir))
+      if (!fs.existsSync(cacheDir)) {
         fs.mkdirSync(cacheDir, { recursive: true });
+      }
 
       const captions = [
         "❝ জীবন সুন্দর যদি কারো মায়ায় না পড়ো 🙂💔 ❞",
@@ -41,7 +44,7 @@ module.exports = {
         "https://i.imgur.com/xUNknmi.jpeg"
       ];
 
-      const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+      const pick = arr => arr[Math.floor(Math.random() * arr.length)];
       const caption = pick(captions);
       const imageUrl = pick(images);
 
@@ -49,18 +52,16 @@ module.exports = {
       const res = await axios.get(imageUrl, { responseType: "arraybuffer" });
       fs.writeFileSync(imgPath, Buffer.from(res.data));
 
-      const body =
+      await api.sendMessage(
+        {
+          body:
 `╔═══『 Random Caption 』═══╗
 
 ${caption}
 
 — 𝐒𝐇𝐎𝐔𝐑𝐎𝐕 𝐁𝐎𝐓 🤖
 Alihsan Shourov
-╚════════════════════╝`;
-
-      await api.sendMessage(
-        {
-          body,
+╚════════════════════╝`,
           attachment: fs.createReadStream(imgPath)
         },
         event.threadID
