@@ -20,8 +20,8 @@ config: {
       gender: 'Male',
       age: '21+',
       height: 'Unknown',
-      facebookLink: 'https://www.facebook.com/CYBER.ULLASH',
-      nick: '𝐀𝐥𝐈𝐇𝐒𝐀𝐍 𝐒𝐇𝐎𝐔𝐑𝐎𝐕\n\n𝐅𝐨𝐫 𝐦𝐨𝐫𝐞 𝐢𝐧𝐟𝐨𝐫𝐦𝐚𝐭𝐢𝐨𝐧 𝐯𝐢𝐬𝐢𝐭: https://shourov-botv3-1.onrender.com/app/api/owner'
+      facebookLink: 'https://www.facebook.com/shourov.sm24',
+      nick: '𝐀𝐥𝐈𝐇𝐒𝐀𝐍 𝐒𝐇𝐎𝐔𝐑𝐎𝐕\n\n𝐅𝐨𝐫 𝐦𝐨𝐫𝐞 𝐢𝐧𝐟𝐨𝐫𝐦𝐚𝐭𝐢𝐨𝐧 𝐯𝐢𝐬𝐢𝐭: https://shourov-video-api1.onrender.com/api/owner'
     };
 
     const bold = 'https://files.catbox.moe/1dwo7j.mp4'; // Replace with your Google Drive videoid link https://drive.google.com/uc?export=download&id=here put your video id
