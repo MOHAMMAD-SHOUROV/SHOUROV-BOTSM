@@ -10,7 +10,7 @@ module.exports = {
 
   onStart: async function ({ message }) {
     try {
-      const api = "https://shourov-api.vercel.app/api/sad";
+      const api = "https://shourov-video-api1.onrender.com/api/sad";
       const res = await global.utils.getJSON(api);
 
       return message.send({
