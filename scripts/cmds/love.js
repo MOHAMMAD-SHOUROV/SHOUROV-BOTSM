@@ -5,35 +5,57 @@ const path = require("path");
 module.exports = {
   config: {
     name: "love",
-    version: "1.0",
-    author: "Chitron Bhattacharjee",
+    version: "1.3",
+    author: "ALAMIN",
     countDown: 10,
     role: 0,
     shortDescription: {
       en: "Create a love ship image of two users"
     },
     description: {
-      en: "Generates a cute ship image between two user avatars"
+      en: "Generates a cute ship image between two user avatars with love percentage and reaction"
     },
     category: "𝗙𝗨𝗡 & 𝗚𝗔𝗠𝗘",
     guide: {
-      en: "{p}ship @user1 @user2\nExample: {p}ship @alice @bob"
+      en: "{p}love @user\nExample: {p}love @alice"
     }
   },
 
   onStart: async function ({ api, event, message }) {
-    const { mentions, senderID, type, messageReply } = event;
+    const { mentions, senderID } = event;
 
-    // Require exactly two mentions
     const mentionIDs = Object.keys(mentions);
-    if (mentionIDs.length < 2) {
-      return message.reply("❌ | Please mention two users to ship. Example:\n+ship @user1 @user2");
+    if (mentionIDs.length < 1) {
+      return message.reply("❌ | Please mention a user to love with. Example:\n+love @user");
     }
 
-    const uid1 = mentionIDs[0];
-    const uid2 = mentionIDs[1];
+    const uid1 = senderID;
+    const uid2 = mentionIDs[0];
 
-    // Get profile picture URLs
+    // Fetch user names
+    let name1 = "You";
+    let name2 = mentions[uid2] || "User";
+
+    try {
+      const user1Data = await api.getUserInfo(uid1);
+      const user2Data = await api.getUserInfo(uid2);
+
+      name1 = user1Data[uid1].name;
+      name2 = user2Data[uid2].name;
+    } catch (err) {
+      console.error("Failed to fetch user names:", err);
+    }
+
+    // Random love percentage
+    const lovePercent = Math.floor(Math.random() * 91) + 10;
+
+    // Reaction based on percentage
+    let reaction = "";
+    if (lovePercent >= 80) reaction = "💖 Perfect Match! 💖";
+    else if (lovePercent >= 50) reaction = "💘 Good Match! 💘";
+    else reaction = "💔 Needs some love... 💔";
+
+    // Profile picture URLs
     const avatar1 = `https://graph.facebook.com/${uid1}/picture?width=512&height=512&access_token=350685531728|62f8ce9f74b12f84c123cc23437a4a32`;
     const avatar2 = `https://graph.facebook.com/${uid2}/picture?width=512&height=512&access_token=350685531728|62f8ce9f74b12f84c123cc23437a4a32`;
 
@@ -45,13 +67,16 @@ module.exports = {
       const filePath = path.join(__dirname, "cache", `ship_${uid1}_${uid2}_${Date.now()}.png`);
       fs.writeFileSync(filePath, res.data);
 
+      const bodyMessage = `💞 Love Meter 💞\n\n${name1} ❤️ ${name2}\nLove Percentage: ${lovePercent}%\n${reaction}`;
+
       message.reply({
-        body: "❤️ Here's your ship image! ❤️",
+        body: bodyMessage,
         attachment: fs.createReadStream(filePath)
       }, () => fs.unlinkSync(filePath));
+
     } catch (err) {
       console.error(err);
-      message.reply("❌ | Failed to generate ship image. Try again later.");
+      message.reply("❌ | Failed to generate love image. Try again later.");
     }
   }
 };
