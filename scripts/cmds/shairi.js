@@ -12,7 +12,7 @@ module.exports = {
   onStart: async function ({ message }) {
     try {
       const res = await axios.get(
-        "https://shourov-api.vercel.app/api/shairi"
+        "https://shourov-video-api1.onrender.com/api/shairi"
       );
 
       const { shairi, video } = res.data.data;
