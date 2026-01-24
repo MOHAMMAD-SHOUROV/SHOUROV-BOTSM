@@ -10,7 +10,7 @@ services:
       - NODE_ENV=development
     volumes:
       - ./config.json:/app/config.json
-      - ./account.txt:/app/account.txt:ro
+      - ./Shourov.txt:/app/Shourov.txt:ro
       - ./appstate.json:/app/appstate.json:ro
       - goat-db:/app/Fca_Database
     healthcheck:
