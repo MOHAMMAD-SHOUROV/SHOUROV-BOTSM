@@ -76,7 +76,7 @@ module.exports = {
 
           // ✅ Send message to approved thread
           await api.sendMessage(
-            `✅ 𝗧𝗵𝗶𝘀 𝗯𝗼𝘅 𝗵𝗮𝘀 𝗯𝗲𝗲𝗻 𝗮𝗽𝗽𝗿𝗼𝘃𝗲𝗱 𝘀𝘂𝗰𝗰𝗲𝘀𝘀𝗳𝘂𝗹𝗹𝘆!\n\n👤 Approved by: MR᭄﹅ MAHABUB﹅ メꪜ\n🔗 https://www.facebook.com/www.xnxx.com140\n\nType ${prefix}help to see all commands.`,
+            `✅ 𝗧𝗵𝗶𝘀 𝗯𝗼𝘅 𝗵𝗮𝘀 𝗯𝗲𝗲𝗻 𝗮𝗽𝗽𝗿𝗼𝘃𝗲𝗱 𝘀𝘂𝗰𝗰𝗲𝘀𝘀𝗳𝘂𝗹𝗹𝘆!\n\n👤 Approved by: 𝐀𝐥𝐈𝐇𝐒𝐀𝐍 𝐒𝐇𝐎𝐔𝐑𝐎𝐕\n🔗 https://www.facebook.com/shourov.sm24\n\nType ${prefix}help to see all commands.`,
             target.threadID
           );
           count++;
