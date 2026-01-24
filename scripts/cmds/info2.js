@@ -1,78 +1,76 @@
-const fs = require("fs-extra");
-const request = require("request");
+const axios = require("axios");
 const moment = require("moment-timezone");
 
 module.exports = {
   config: {
     name: "admin",
-    version: "1.1.0",
-    author: "Alihsan Shourov",
+    version: "1.0.0",
+    author: "alihsan shourov",
+    countDown: 5,
     role: 0,
-    shortDescription: "Admin profile",
-    longDescription: "Show admin profile with picture",
-    category: "info",
-    guide: "{pn}"
+    shortDescription: { en: "Show admin info" },
+    longDescription: { en: "Show admin & bot information with video" },
+    category: "Information",
+    guide: { en: "{pn}" }
   },
 
-  onStart: async function ({ api, event }) {
+  onStart: async function ({ message, global }) {
     try {
-      const uptime = process.uptime();
-      const hours = Math.floor(uptime / 3600);
-      const minutes = Math.floor((uptime % 3600) / 60);
-      const seconds = Math.floor(uptime % 60);
+      const wait = await message.reply("⏳ Loading admin info...");
 
-      const time = moment.tz("Asia/Dhaka").format("DD/MM/YYYY • HH:mm:ss");
+      setTimeout(() => {
+        message.unsend(wait.messageID);
+      }, 3000);
 
-      const cachePath = __dirname + "/cache/admin.png";
-      const fbPicUrl =
-        "https://graph.facebook.com/100071971474157/picture?height=720&width=720&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662";
+      const botName = "𝐒𝐇𝐎𝐔𝐑𝐎𝐕_𝐁𝐎𝐓";
+      const prefix = global.GoatBot.config.prefix;
+      const owner = "𝐀𝐋𝐈𝐇𝐒𝐀𝐍 𝐒𝐇𝐎𝐔𝐑𝐎𝐕";
+      const fb = "https://www.facebook.com/shourov.sm24";
+      const whatsapp = "01709281334";
+      const status = "SINGLE";
 
-      // download image
-      await new Promise((resolve, reject) => {
-        request(fbPicUrl)
-          .pipe(fs.createWriteStream(cachePath))
-          .on("finish", resolve)
-          .on("error", reject);
+      const now = moment().tz("Asia/Dhaka");
+      const date = now.format("DD/MM/YYYY");
+      const time = now.format("hh:mm:ss A");
+
+      const up = process.uptime();
+      const uptime =
+        Math.floor(up / 86400) + "d " +
+        Math.floor((up % 86400) / 3600) + "h " +
+        Math.floor((up % 3600) / 60) + "m " +
+        Math.floor(up % 60) + "s";
+
+      const res = await axios.get("https://shourov-info.vercel.app/api/info");
+      let video = res.data.data;
+
+      if (video.includes("drive.google.com")) {
+        const id = video.match(/[-\w]{25,}/);
+        if (id) video = `https://drive.google.com/uc?id=${id[0]}`;
+      }
+
+      await message.reply({
+        body:
+`╭───[ 👑 ADMIN INFO ]───╮
+│
+│ 👤 Owner  : ${owner}
+│ 🤖 Bot    : ${botName}
+│ 🔰 Prefix : ${prefix}
+│ ❤️ Status : ${status}
+│
+│ 📆 Date   : ${date}
+│ ⏰ Time   : ${time}
+│ ⚙ Uptime : ${uptime}
+│
+│ 🌐 FB     : ${fb}
+│ 📱 WhatsApp: ${whatsapp}
+│
+╰────────────────────╯`,
+        attachment: await global.utils.getStreamFromURL(video)
       });
 
-      const body = `
-╭───〔 👑 ADMIN INFO 👑 〕───╮
-
-👤 Name        : Alihsan Shourov
-🕌 Religion    : Islam
-📍 Address     : Debiganj, Panchagarh
-👨 Gender      : Male
-💞 Relationship: Single
-🎓 Work        : Student
-
-📧 Gmail       : shourovislam5430@gmail.com
-📘 Facebook    : facebook.com/shourov.sm24
-📱 WhatsApp    : wa.me/+8801709281334
-✈️ Telegram    : t.me/shourov_ss
-
-⏰ Time        : ${time}
-🤖 Bot Uptime  : ${hours}h ${minutes}m ${seconds}s
-
-╰───────────〔 SHOUROV BOT 🤖 〕───────────╯
-`;
-
-      await api.sendMessage(
-        {
-          body,
-          attachment: fs.createReadStream(cachePath)
-        },
-        event.threadID
-      );
-
-      // delete cache
-      if (fs.existsSync(cachePath)) fs.unlinkSync(cachePath);
-
-    } catch (err) {
-      console.error("Admin command error:", err);
-      api.sendMessage(
-        "❌ Admin command এ সমস্যা হয়েছে। পরে আবার চেষ্টা করুন।",
-        event.threadID
-      );
+    } catch (e) {
+      console.error(e);
+      message.reply("❌ Admin info load করতে সমস্যা হয়েছে।");
     }
   }
 };
