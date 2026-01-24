@@ -1,1 +1,166 @@
-Y29uc3QgY3JlYXRlRnVuY01lc3NhZ2UgPSBnbG9iYWwudXRpbHMubWVzc2FnZTsKY29uc3QgaGFuZGxlckNoZWNrREIgPSByZXF1aXJlKCIuL2hhbmRsZXJDaGVja0RhdGEuanMiKTsKCmNvbnN0IHJlcXVlc3QgPSByZXF1aXJlKCJyZXF1ZXN0Iik7CmNvbnN0IGF4aW9zID0gcmVxdWlyZSgiYXhpb3MiKTsKY29uc3QgZnMgPSByZXF1aXJlKCJmcy1leHRyYSIpOwoKbW9kdWxlLmV4cG9ydHMgPSAoYXBpLCB0aHJlYWRNb2RlbCwgdXNlck1vZGVsLCBkYXNoQm9hcmRNb2RlbCwgZ2xvYmFsTW9kZWwsIHVzZXJzRGF0YSwgdGhyZWFkc0RhdGEsIGRhc2hCb2FyZERhdGEsIGdsb2JhbERhdGEpID0+IHsKICAgIGNvbnN0IGhhbmRsZXJFdmVudHMgPSByZXF1aXJlKAogICAgICAgIHByb2Nlc3MuZW52Lk5PREVfRU5WID09ICdkZXZlbG9wbWVudCcgPwogICAgICAgICAgICAiLi9oYW5kbGVyRXZlbnRzLmRldi5qcyIgOgogICAgICAgICAgICAiLi9oYW5kbGVyRXZlbnRzLmpzIgogICAgKShhcGksIHRocmVhZE1vZGVsLCB1c2VyTW9kZWwsIGRhc2hCb2FyZE1vZGVsLCBnbG9iYWxNb2RlbCwgdXNlcnNEYXRhLCB0aHJlYWRzRGF0YSwgZGFzaEJvYXJkRGF0YSwgZ2xvYmFsRGF0YSk7CgogICAgcmV0dXJuIGFzeW5jIGZ1bmN0aW9uIChldmVudCkgewogICAgICAgIGNvbnN0IG1lc3NhZ2UgPSBjcmVhdGVGdW5jTWVzc2FnZShhcGksIGV2ZW50KTsKCiAgICAgICAgYXdhaXQgaGFuZGxlckNoZWNrREIodXNlcnNEYXRhLCB0aHJlYWRzRGF0YSwgZXZlbnQpOwogICAgICAgIGNvbnN0IGhhbmRsZXJDaGF0ID0gYXdhaXQgaGFuZGxlckV2ZW50cyhldmVudCwgbWVzc2FnZSk7CiAgICAgICAgaWYgKCFoYW5kbGVyQ2hhdCkgcmV0dXJuOwoKICAgICAgICBjb25zdCB7CiAgICAgICAgICAgIG9uU3RhcnQsCiAgICAgICAgICAgIG9uQ2hhdCwKICAgICAgICAgICAgb25SZXBseSwKICAgICAgICAgICAgb25FdmVudCwKICAgICAgICAgICAgaGFuZGxlckV2ZW50LAogICAgICAgICAgICBvblJlYWN0aW9uLAogICAgICAgICAgICB0eXAsCiAgICAgICAgICAgIHByZXNlbmNlLAogICAgICAgICAgICByZWFkX3JlY2VpcHQKICAgICAgICB9ID0gaGFuZGxlckNoYXQ7CgogICAgICAgIHN3aXRjaCAoZXZlbnQudHlwZSkgewoKICAgICAgICAgICAgY2FzZSAibWVzc2FnZSI6CiAgICAgICAgICAgIGNhc2UgIm1lc3NhZ2VfcmVwbHkiOgogICAgICAgICAgICBjYXNlICJtZXNzYWdlX3Vuc2VuZCI6CiAgICAgICAgICAgICAgICBvbkNoYXQoKTsKICAgICAgICAgICAgICAgIG9uU3RhcnQoKTsKICAgICAgICAgICAgICAgIG9uUmVwbHkoKTsKCiAgICAgICAgICAgICAgICAvLyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogICAgICAgICAgICAgICAgLy8g8J+UhCBSRVNFTkQgU1lTVEVNIEZPUiBVTlNFTlQgTUVTU0FHRQogICAgICAgICAgICAgICAgLy8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICAgICAgICAgICAgICAgIGlmIChldmVudC50eXBlID09ICJtZXNzYWdlX3Vuc2VuZCIpIHsKCiAgICAgICAgICAgICAgICAgICAgbGV0IHJlc2VuZCA9IGF3YWl0IHRocmVhZHNEYXRhLmdldChldmVudC50aHJlYWRJRCwgInNldHRpbmdzLnJlU2VuZCIpOwoKICAgICAgICAgICAgICAgICAgICBpZiAocmVzZW5kID09IHRydWUgJiYgZXZlbnQuc2VuZGVySUQgIT09IGFwaS5nZXRDdXJyZW50VXNlcklEKCkpIHsKCiAgICAgICAgICAgICAgICAgICAgICAgIGxldCB1bWlkID0gZ2xvYmFsLnJlU2VuZFtldmVudC50aHJlYWRJRF0uZmluZEluZGV4KAogICAgICAgICAgICAgICAgICAgICAgICAgICAgZSA9PiBlLm1lc3NhZ2VJRCA9PT0gZXZlbnQubWVzc2FnZUlECiAgICAgICAgICAgICAgICAgICAgICAgICk7CgogICAgICAgICAgICAgICAgICAgICAgICBpZiAodW1pZCA+IC0xKSB7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICBsZXQgbm5hbWUgPSBhd2FpdCB1c2Vyc0RhdGEuZ2V0TmFtZShldmVudC5zZW5kZXJJRCk7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICBsZXQgYXR0Y2ggPSBbXTsKCiAgICAgICAgICAgICAgICAgICAgICAgICAgICBpZiAoZ2xvYmFsLnJlU2VuZFtldmVudC50aHJlYWRJRF1bdW1pZF0uYXR0YWNobWVudHMubGVuZ3RoID4gMCkgewoKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBsZXQgY24gPSAwOwoKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBmb3IgKHZhciBhYmMgb2YgZ2xvYmFsLnJlU2VuZFtldmVudC50aHJlYWRJRF1bdW1pZF0uYXR0YWNobWVudHMpIHsKCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGlmIChhYmMudHlwZSA9PSAiYXVkaW8iKSB7CgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgY24gKz0gMTsKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGxldCBwdHMgPSBgc2NyaXB0cy9jbWRzL3RtcC8ke2NufS5tcDNgOwoKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGxldCByZXMyID0gKGF3YWl0IGF4aW9zLmdldChhYmMudXJsLCB7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgcmVzcG9uc2VUeXBlOiAiYXJyYXlidWZmZXIiCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB9KSkuZGF0YTsKCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBmcy53cml0ZUZpbGVTeW5jKHB0cywgQnVmZmVyLmZyb20ocmVzMiwgInV0Zi04IikpOwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgYXR0Y2gucHVzaChmcy5jcmVhdGVSZWFkU3RyZWFtKHB0cykpOwoKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfSBlbHNlIHsKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGF0dGNoLnB1c2goYXdhaXQgZ2xvYmFsLnV0aWxzLmdldFN0cmVhbUZyb21VUkwoYWJjLnVybCkpOwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgICAgICAgICAgICAgICAgfQoKICAgICAgICAgICAgICAgICAgICAgICAgICAgIGFwaS5zZW5kTWVzc2FnZSh7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgYm9keTogYCR7bm5hbWV9IHJlbW92ZWQ6XG5cbiR7Z2xvYmFsLnJlU2VuZFtldmVudC50aHJlYWRJRF1bdW1pZF0uYm9keX1gLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIG1lbnRpb25zOiBbeyBpZDogZXZlbnQuc2VuZGVySUQsIHRhZzogbm5hbWUgfV0sCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgYXR0YWNobWVudDogYXR0Y2gKICAgICAgICAgICAgICAgICAgICAgICAgICAgIH0sIGV2ZW50LnRocmVhZElEKTsKICAgICAgICAgICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICAgIGJyZWFrOwoKICAgICAgICAgICAgLy8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICAgICAgICAgICAgLy8g8J+UtSBFVkVOVCBIQU5ETEVSCiAgICAgICAgICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgICAgICAgICAgIGNhc2UgImV2ZW50IjoKICAgICAgICAgICAgICAgIGhhbmRsZXJFdmVudCgpOwogICAgICAgICAgICAgICAgb25FdmVudCgpOwogICAgICAgICAgICAgICAgYnJlYWs7CgogICAgICAgICAgICAvLyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogICAgICAgICAgICAvLyDwn5KsIFJFQUNUSU9OIFNZU1RFTSAoRnVsbHkgRml4ZWQpCiAgICAgICAgICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgICAgICAgICAgIGNhc2UgIm1lc3NhZ2VfcmVhY3Rpb24iOgogICAgICAgICAgICAgICAgb25SZWFjdGlvbigpOwoKICAgICAgICAgICAgICAgIC8vIEdldCBhZG1pbiBsaXN0IGZyb20gY29uZmlnCiAgICAgICAgICAgICAgICBjb25zdCBhZG1pbkxpc3QgPSBnbG9iYWwuR29hdEJvdD8uY29uZmlnPy5hZG1pbkJvdCB8fCBbXTsKCiAgICAgICAgICAgICAgICAvLyDimqDvuI8gUmVhY3Rpb24g4oaSIHJlbW92ZSB0aGUgdXNlciAoQWxsb3dlZCBvbmx5IGZvciBhZG1pbnMpCiAgICAgICAgICAgICAgICBpZiAoZXZlbnQucmVhY3Rpb24gPT0gIuKaoO+4jyIpIHsKCiAgICAgICAgICAgICAgICAgICAgaWYgKGFkbWluTGlzdC5pbmNsdWRlcyhldmVudC51c2VySUQpKSB7CgogICAgICAgICAgICAgICAgICAgICAgICBhcGkucmVtb3ZlVXNlckZyb21Hcm91cChldmVudC5zZW5kZXJJRCwgZXZlbnQudGhyZWFkSUQsIChlcnIpID0+IHsKICAgICAgICAgICAgICAgICAgICAgICAgICAgIGlmIChlcnIpIGNvbnNvbGUubG9nKGVycik7CiAgICAgICAgICAgICAgICAgICAgICAgIH0pOwoKICAgICAgICAgICAgICAgICAgICB9IGVsc2UgewogICAgICAgICAgICAgICAgICAgICAgICBtZXNzYWdlLnNlbmQoIjopIik7CiAgICAgICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgICAgfQoKICAgICAgICAgICAgICAgIC8vIPCfmKAgUmVhY3Rpb24g4oaSIHVuc2VuZCBib3QncyBtZXNzYWdlIChPbmx5IGFkbWlucyBjYW4gdHJpZ2dlcikKICAgICAgICAgICAgICAgIGlmIChldmVudC5yZWFjdGlvbiA9PSAi8J+YoCIpIHsKCiAgICAgICAgICAgICAgICAgICAgLy8gQm90IG9ubHkgcmVhY3RzIGlmIGl0IG9yaWdpbmFsbHkgc2VudCB0aGlzIG1lc3NhZ2UKICAgICAgICAgICAgICAgICAgICBpZiAoZXZlbnQuc2VuZGVySUQgPT0gYXBpLmdldEN1cnJlbnRVc2VySUQoKSkgewoKICAgICAgICAgICAgICAgICAgICAgICAgaWYgKGFkbWluTGlzdC5pbmNsdWRlcyhldmVudC51c2VySUQpKSB7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICBtZXNzYWdlLnVuc2VuZChldmVudC5tZXNzYWdlSUQpOwogICAgICAgICAgICAgICAgICAgICAgICB9IGVsc2UgewogICAgICAgICAgICAgICAgICAgICAgICAgICAgbWVzc2FnZS5zZW5kKCI6KSIpOwogICAgICAgICAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgICAgfQoKICAgICAgICAgICAgICAgIGJyZWFrOwoKICAgICAgICAgICAgLy8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICAgICAgICAgICAgLy8g4pyP77iPIFVTRVIgVFlQSU5HIElORElDQVRPUgogICAgICAgICAgICAvLyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogICAgICAgICAgICBjYXNlICJ0eXAiOgogICAgICAgICAgICAgICAgdHlwKCk7CiAgICAgICAgICAgICAgICBicmVhazsKCiAgICAgICAgICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgICAgICAgICAgIC8vIPCfkYHvuI8gUFJFU0VOQ0UgVVBEQVRFCiAgICAgICAgICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgICAgICAgICAgIGNhc2UgInByZXNlbmNlIjoKICAgICAgICAgICAgICAgIHByZXNlbmNlKCk7CiAgICAgICAgICAgICAgICBicmVhazsKCiAgICAgICAgICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgICAgICAgICAgIC8vIPCfk5YgUkVBRCBSRUNFSVBUCiAgICAgICAgICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgICAgICAgICAgIGNhc2UgInJlYWRfcmVjZWlwdCI6CiAgICAgICAgICAgICAgICByZWFkX3JlY2VpcHQoKTsKICAgICAgICAgICAgICAgIGJyZWFrOwoKICAgICAgICAgICAgZGVmYXVsdDoKICAgICAgICAgICAgICAgIGJyZWFrOwogICAgICAgIH0KICAgIH07Cn07Cg==
+const createFuncMessage = global.utils.message;
+const handlerCheckDB = require("./handlerCheckData.js");
+
+const request = require("request");
+const axios = require("axios");
+const fs = require("fs-extra");
+
+module.exports = (api, threadModel, userModel, dashBoardModel, globalModel, usersData, threadsData, dashBoardData, globalData) => {
+    const handlerEvents = require(
+        process.env.NODE_ENV == 'development' ?
+            "./handlerEvents.dev.js" :
+            "./handlerEvents.js"
+    )(api, threadModel, userModel, dashBoardModel, globalModel, usersData, threadsData, dashBoardData, globalData);
+
+    return async function (event) {
+        const message = createFuncMessage(api, event);
+
+        await handlerCheckDB(usersData, threadsData, event);
+        const handlerChat = await handlerEvents(event, message);
+        if (!handlerChat) return;
+
+        const {
+            onStart,
+            onChat,
+            onReply,
+            onEvent,
+            handlerEvent,
+            onReaction,
+            typ,
+            presence,
+            read_receipt
+        } = handlerChat;
+
+        switch (event.type) {
+
+            case "message":
+            case "message_reply":
+            case "message_unsend":
+                onChat();
+                onStart();
+                onReply();
+
+                // ================================
+                // 🔄 RESEND SYSTEM FOR UNSENT MESSAGE
+                // ================================
+                if (event.type == "message_unsend") {
+
+                    let resend = await threadsData.get(event.threadID, "settings.reSend");
+
+                    if (resend == true && event.senderID !== api.getCurrentUserID()) {
+
+                        let umid = global.reSend[event.threadID].findIndex(
+                            e => e.messageID === event.messageID
+                        );
+
+                        if (umid > -1) {
+                            let nname = await usersData.getName(event.senderID);
+                            let attch = [];
+
+                            if (global.reSend[event.threadID][umid].attachments.length > 0) {
+
+                                let cn = 0;
+
+                                for (var abc of global.reSend[event.threadID][umid].attachments) {
+
+                                    if (abc.type == "audio") {
+
+                                        cn += 1;
+                                        let pts = `scripts/cmds/tmp/${cn}.mp3`;
+
+                                        let res2 = (await axios.get(abc.url, {
+                                            responseType: "arraybuffer"
+                                        })).data;
+
+                                        fs.writeFileSync(pts, Buffer.from(res2, "utf-8"));
+                                        attch.push(fs.createReadStream(pts));
+
+                                    } else {
+                                        attch.push(await global.utils.getStreamFromURL(abc.url));
+                                    }
+                                }
+                            }
+
+                            api.sendMessage({
+                                body: `${nname} removed:\n\n${global.reSend[event.threadID][umid].body}`,
+                                mentions: [{ id: event.senderID, tag: nname }],
+                                attachment: attch
+                            }, event.threadID);
+                        }
+                    }
+                }
+                break;
+
+            // ================================
+            // 🔵 EVENT HANDLER
+            // ================================
+            case "event":
+                handlerEvent();
+                onEvent();
+                break;
+
+            // ================================
+            // 💬 REACTION SYSTEM (Fully Fixed)
+            // ================================
+            case "message_reaction":
+                onReaction();
+
+                // Get admin list from config
+                const adminList = global.GoatBot?.config?.adminBot || [];
+
+                // ⚠️ Reaction → remove the user (Allowed only for admins)
+                if (event.reaction == "⚠️") {
+
+                    if (adminList.includes(event.userID)) {
+
+                        api.removeUserFromGroup(event.senderID, event.threadID, (err) => {
+                            if (err) console.log(err);
+                        });
+
+                    } else {
+                        message.send(":)");
+                    }
+                }
+
+                // 😠 Reaction → unsend bot's message (Only admins can trigger)
+                if (event.reaction == "😠") {
+
+                    // Bot only reacts if it originally sent this message
+                    if (event.senderID == api.getCurrentUserID()) {
+
+                        if (adminList.includes(event.userID)) {
+                            message.unsend(event.messageID);
+                        } else {
+                            message.send(":)");
+                        }
+                    }
+                }
+
+                break;
+
+            // ================================
+            // ✏️ USER TYPING INDICATOR
+            // ================================
+            case "typ":
+                typ();
+                break;
+
+            // ================================
+            // 👁️ PRESENCE UPDATE
+            // ================================
+            case "presence":
+                presence();
+                break;
+
+            // ================================
+            // 📖 READ RECEIPT
+            // ================================
+            case "read_receipt":
+                read_receipt();
+                break;
+
+            default:
+                break;
+        }
+    };
+};
