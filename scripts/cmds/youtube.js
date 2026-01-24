@@ -1,87 +1,127 @@
+const a = require("yt-search");
+const b = require("axios");
+const c = require("fs");
+const d = require("path");
+
+const nix = "https://raw.githubusercontent.com/aryannix/stuffs/master/raw/apis.json";
+
+async function f(g) {
+  const h = await b({ url: g, responseType: "stream" });
+  return h.data;
+}
+
 module.exports = {
- config: {
- name: "youtube",
- version: "1.0",
- role: 0,
- author: "Chitron Bhattacharjee",
- cooldowns: 40,
- shortdescription: "send YouTube video",
- longdescription: "",
- category: "video",
- usages: "{pn} video name",
- dependencies: {
- "fs-extra": "",
- "request": "",
- "axios": "",
- "ytdl-core": "",
- "yt-search": ""
- }
- },
+  config: {
+    name: "youtube",
+    aliases: ["ytb"],
+    version: "0.0.9",
+    author: "ArYAN",
+    countDown: 5,
+    role: 0,
+    description: { en: "Search and download YouTube video/audio" },
+    category: "media",
+    guide: { en: "{pn} -v <query|url>\n{pn} -a <query|url>" }
+  },
 
- onStart: async ({ api, event }) => {
- const axios = require("axios");
- const fs = require("fs-extra");
- const ytdl = require("ytdl-core");
- const request = require("request");
- const yts = require("yt-search");
+  onStart: async function ({ api: i, args, event: k, commandName: l }) {
+    let e;
+    try {
+      const apiConfig = await b.get(nix);
+      e = apiConfig.data && apiConfig.data.api;
+      if (!e) {
+        return i.sendMessage("❌ Configuration Error: GitHub apis.json is missing the 'api' field.", k.threadID, k.messageID);
+      }
+    } catch (error) {
+      console.error("API Config Fetch Error:", error);
+      return i.sendMessage("❌ Failed to fetch API configuration from GitHub.", k.threadID, k.messageID);
+    }
 
- const input = event.body;
- const text = input.substring(12);
- const data = input.split(" ");
+    const aryan = args;
+    const n = aryan[0];
+    if (!["-v", "-a"].includes(n)) return i.sendMessage("❌ Usage: /ytb [-a|-v] <search or YouTube URL>", k.threadID, k.messageID);
 
- if (data.length < 2) {
- return api.sendMessage("Please specify a video name.", event.threadID);
- }
+    const o = aryan.slice(1).join(" ");
+    if (!o) return i.sendMessage("❌ Provide a search query or URL.", k.threadID, k.messageID);
 
- data.shift();
- const videoName = data.join(" ");
+    if (o.startsWith("http")) {
+      if (n === "-v") return await p(o, "mp4", i, k, e);
+      else return await p(o, "mp3", i, k, e);
+    }
 
- try {
- api.sendMessage(`✅ | Searching video for "${videoName}".\n⏳ | Please wait...`, event.threadID);
+    try {
+      const q = await a(o);
+      const r = q.videos.slice(0, 6);
+      if (r.length === 0) return i.sendMessage("❌ No results found.", k.threadID, k.messageID);
 
- const searchResults = await yts(videoName);
- if (!searchResults.videos.length) {
- return api.sendMessage("No video found.", event.threadID, event.messageID);
- }
+      let s = "";
+      r.forEach((t, u) => {
+        const v = n === "-v" ? t.seconds ? "360p" : "Unknown" : "128kbps";
+        s += `• Title: ${t.title}\n• Quality: ${v}\n\n`;
+      });
 
- const video = searchResults.videos[0];
- const videoUrl = video.url;
+      const w = await Promise.all(r.map(x => f(x.thumbnail)));
 
- const stream = ytdl(videoUrl, { filter: "audioandvideo" });
+      i.sendMessage(
+        { body: s + "Reply with number (1-6) to download", attachment: w },
+        k.threadID,
+        (err, y) => {
+          global.GoatBot.onReply.set(y.messageID, {
+            commandName: l,
+            messageID: y.messageID,
+            author: k.senderID,
+            results: r,
+            type: n,
+            baseApi: e
+          });
+        },
+        k.messageID
+      );
+    } catch (err) {
+      console.error(err);
+      i.sendMessage("❌ Failed to search YouTube.", k.threadID, k.messageID);
+    }
+  },
 
- const fileName = `${event.senderID}.mp4`;
- const filePath = __dirname + `/cache/${fileName}`;
+  onReply: async function ({ event: z, api: A, Reply: B }) {
+    const { results: C, type: D, baseApi: e } = B;
+    if (!e) return A.sendMessage("❌ Configuration lost. Please try the command again.", z.threadID, z.messageID);
 
- stream.pipe(fs.createWriteStream(filePath));
+    const E = parseInt(z.body);
 
- stream.on('response', () => {
- console.info('[DOWNLOADER]', 'Starting download now!');
- });
+    if (isNaN(E) || E < 1 || E > C.length) return A.sendMessage("❌ Invalid selection. Choose 1-6.", z.threadID, z.messageID);
 
- stream.on('info', (info) => {
- console.info('[DOWNLOADER]', `Downloading video: ${info.videoDetails.title}`);
- });
+    const F = C[E - 1];
+    await A.unsendMessage(B.messageID);
 
- stream.on('end', () => {
- console.info('[DOWNLOADER] Downloaded');
-
- if (fs.statSync(filePath).size > 26214400) {
- fs.unlinkSync(filePath);
- return api.sendMessage('The file could not be sent because it is larger than 25MB.', event.threadID);
- }
-
- const message = {
- body: `📹 | Here's your video\n\n🔮 | Title: ${video.title}\n⏰ | Duration: ${video.duration.timestamp}`,
- attachment: fs.createReadStream(filePath)
- };
-
- api.sendMessage(message, event.threadID, () => {
- fs.unlinkSync(filePath);
- });
- });
- } catch (error) {
- console.error('[ERROR]', error);
- api.sendMessage(' An error occurred while processing the command.', event.threadID);
- }
- }
+    if (D === "-v") await p(F.url, "mp4", A, z, e);
+    else await p(F.url, "mp3", A, z, e);
+  }
 };
+
+async function p(q, r, s, t, e) {
+  try {
+    const { data: u } = await b.get(`${e}/yx?url=${encodeURIComponent(q)}&type=${r}`);
+    const v = u.download_url;
+    if (!u.status || !v) throw new Error("API failed");
+
+    const w = d.join(__dirname, `yt_${Date.now()}.${r}`);
+    const x = c.createWriteStream(w);
+    const y = await b({ url: v, responseType: "stream" });
+    y.data.pipe(x);
+
+    await new Promise((resolve, reject) => {
+      x.on("finish", resolve);
+      x.on("error", reject);
+    });
+
+    await s.sendMessage(
+      { attachment: c.createReadStream(w) },
+      t.threadID,
+      () => c.unlinkSync(w),
+      t.messageID
+    );
+  } catch (err) {
+    console.error(`${r} error:`, err.message);
+    s.sendMessage(`❌ Failed to download ${r}.`, t.threadID, t.messageID);
+  }
+}
