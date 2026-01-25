@@ -1,25 +1,29 @@
+const axios = require("axios");
+
 module.exports = {
   config: {
     name: "sad",
     version: "1.0",
-    author: "SHOUROV",
-    countDown: 5,
+    author: "Shourov",
     role: 0,
-    category: "Video"
+    category: "video"
   },
 
   onStart: async function ({ message }) {
     try {
-      const api = "https://shourov-video-api1.onrender.com/api/sad";
-      const res = await global.utils.getJSON(api);
+      const res = await axios.get(
+        "https://shourov-api.onrender.com/api/sad"
+      );
 
-      return message.send({
-        body: res.quote,
-        attachment: await global.utils.getStreamFromURL(res.video)
+      const { quote, video } = res.data.data;
+
+      message.send({
+        body: quote,
+        attachment: await global.utils.getStreamFromURL(video)
       });
 
     } catch (err) {
-      return message.send("🥀 Sad video load হয়নি");
+      message.send("❌ Video আনতে সমস্যা হয়েছে");
     }
   }
 };
