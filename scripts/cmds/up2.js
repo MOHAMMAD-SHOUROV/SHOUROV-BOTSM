@@ -39,7 +39,7 @@ module.exports = {
       const now = new Date().toLocaleString("en-BD", { timeZone: "Asia/Dhaka", hour12: true });
 
       const info = `
-🔧 𝗕𝗢𝗧 𝗦𝗬𝗦𝗧𝗘𝗠 𝗜𝗡𝗙𝗢 🔧
+🔧 𝐒𝐇𝐎𝐔𝐑𝐎𝐕_𝐁𝐎𝐓 𝗦𝗬𝗦𝗧𝗘𝗠 𝗜𝗡𝗙𝗢 🔧
 ────────────────
 🟢 Uptime: ${uptime}
 📅 Time: ${now}
