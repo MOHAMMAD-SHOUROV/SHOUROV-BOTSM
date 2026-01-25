@@ -37,7 +37,7 @@ async function sendGf(api, event) {
   try {
     // 🔹 API CALL
     const res = await axios.get(
-      "https://shourov-bot-gf-api.onrender.com/shourovGF",
+      "https://shourov-api.onrender.com/api/gf",
       { timeout: 10000 }
     );
 
