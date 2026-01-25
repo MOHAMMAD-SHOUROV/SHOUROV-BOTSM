@@ -74,7 +74,7 @@ module.exports = {
 🖥 Pʟᴀᴛғᴏʀᴍ: ${platform}
 🚀 Bᴏᴛ Aᴄᴛɪᴠᴇᴛᴇᴅ: ${startTime}
 
-👑 Oᴡɴᴀʀ: MR᭄﹅ MAHABUB﹅ メꪜ
+👑 Oᴡɴᴀʀ: 𝐀𝐥𝐈𝐇𝐒𝐀𝐍 𝐒𝐇𝐎𝐔𝐑𝐎𝐕
 📡 ʜᴏsᴛ: ${hostname}
 🌐 Iᴘ Aᴅʀᴇss: ${ipAddr}`;
 
