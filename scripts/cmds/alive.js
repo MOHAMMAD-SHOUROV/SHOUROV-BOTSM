@@ -20,8 +20,8 @@ module.exports = {
 
   onChat: async ({ event, message }) => {
     const text = event.body?.toLowerCase().trim();
-    if (text === "alive") {
-      await sendAlive(message);
+    if (text === "shourov") {
+      await sendShourov(message);
     }
   }
 };
