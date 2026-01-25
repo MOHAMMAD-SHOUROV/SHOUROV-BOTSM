@@ -3,14 +3,14 @@ const axios = require("axios");
 
 module.exports = {
   config: {
-    name: "alive",
+    name: "shourov",
     version: "1.5",
     author: "Xos Eren",
     shortDescription: "Alive check with voice",
     longDescription: "Replies with bot status + a cute voice",
-    category: "alive",
+    category: "shourov",
     guide: {
-      en: "Type: alive"
+      en: "Type: shourov"
     },
     usePrefix: true,
     onChat: true
@@ -44,10 +44,10 @@ async function sendAlive(message) {
       await message.reply({
         body: `
 ───────────────
-✨ SPIDEY BOT ✨
+✨ 𝐒𝐇𝐎𝐔𝐑𝐎𝐕_𝐁𝐎𝐓 ✨
 
 Bot is alive and kicking!
-Made by: Eren Yeager
+Made by: 𝐀𝐥𝐈𝐇𝐒𝐀𝐍 𝐒𝐇𝐎𝐔𝐑𝐎𝐕
 Ready to serve you.
 
 ───────────────`,
