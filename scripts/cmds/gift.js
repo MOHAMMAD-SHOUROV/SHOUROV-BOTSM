@@ -1,57 +1,73 @@
 module.exports = {
- config: {
- name: "gift",
- aliases: ["pay"],
- version: "1.0",
- author: "Chitron Bhattacharjee",
- role: 0,
- shortDescription: {
- en: "Send money to another user"
- },
- description: {
- en: "Transfer money to another user by tagging them"
- },
- category: "𝗪𝗔𝗟𝗟𝗘𝗧",
- guide: {
- en: "{pn} @user <amount>"
- }
- },
+  config: {
+    name: "gift",
+    aliases: ["pay"],
+    version: "1.1",
+    author: "Shourov (fixed by ChatGPT)",
+    role: 0,
+    category: "𝗪𝗔𝗟𝗟𝗘𝗧",
+    guide: {
+      en: "{pn} @user <amount> OR reply + {pn} <amount>"
+    }
+  },
 
- langs: {
- en: {
- missingInput: "❌ Tag a user and specify a valid amount.\nExample: {pn} @user 100",
- invalidAmount: "❌ Amount must be a positive number.",
- notEnough: "❌ You don't have enough money.",
- success: "✅ Sent %1$ coins to %2"
- }
- },
+  langs: {
+    en: {
+      missingInput:
+        "❌ Please tag a user or reply to someone and specify a valid amount.\nExample:\n/gift @user 100\nor\n(reply) /gift 100",
+      invalidAmount: "❌ Amount must be a positive number.",
+      notEnough: "❌ You don't have enough balance.",
+      success: "✅ Successfully sent %1 coins to %2 💸"
+    }
+  },
 
- onStart: async function ({ message, event, args, usersData, getLang }) {
- const targetUID = Object.keys(event.mentions)[0];
- const amount = parseInt(args[args.length - 1]);
+  onStart: async function ({ message, event, args, usersData, getLang }) {
+    let targetUID;
 
- if (!targetUID || isNaN(amount) || amount <= 0) {
- return message.reply(getLang("missingInput"));
- }
+    // 1️⃣ Detect target user (mention OR reply)
+    if (Object.keys(event.mentions).length > 0) {
+      targetUID = Object.keys(event.mentions)[0];
+    } else if (event.messageReply) {
+      targetUID = event.messageReply.senderID;
+    }
 
- const senderData = await usersData.get(event.senderID);
- if (!senderData || senderData.money < amount) {
- return message.reply(getLang("notEnough"));
- }
+    // 2️⃣ Detect amount
+    const amount = parseInt(args[args.length - 1]);
 
- const receiverData = await usersData.get(targetUID);
+    if (!targetUID || isNaN(amount) || amount <= 0) {
+      return message.reply(getLang("missingInput"));
+    }
 
- // Update sender
- await usersData.set(event.senderID, {
- money: senderData.money - amount
- });
+    // 3️⃣ Get sender data
+    const senderData = await usersData.get(event.senderID);
+    if (!senderData || (senderData.money || 0) < amount) {
+      return message.reply(getLang("notEnough"));
+    }
 
- // Update receiver
- await usersData.set(targetUID, {
- money: (receiverData?.money || 0) + amount
- });
+    // 4️⃣ Get receiver data
+    const receiverData = await usersData.get(targetUID);
 
- const receiverName = event.mentions[targetUID].replace("@", "");
- return message.reply(getLang("success", amount, receiverName));
- }
+    // 5️⃣ Update balances
+    await usersData.set(event.senderID, {
+      ...senderData,
+      money: (senderData.money || 0) - amount
+    });
+
+    await usersData.set(targetUID, {
+      ...receiverData,
+      money: (receiverData?.money || 0) + amount
+    });
+
+    // 6️⃣ Receiver name
+    let receiverName = "User";
+    if (event.mentions[targetUID]) {
+      receiverName = event.mentions[targetUID].replace("@", "");
+    } else if (receiverData?.name) {
+      receiverName = receiverData.name;
+    }
+
+    return message.reply(
+      getLang("success", amount, receiverName)
+    );
+  }
 };
