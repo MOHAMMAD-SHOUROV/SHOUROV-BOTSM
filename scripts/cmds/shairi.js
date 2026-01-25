@@ -15,7 +15,20 @@ module.exports = {
         "https://shourov-video-api1.onrender.com/api/shairi"
       );
 
-      const { shairi, video } = res.data.data;
+      // 🔥 SAFE ACCESS (no crash)
+      const shairi =
+        res.data?.data?.shairi ||
+        res.data?.shairi ||
+        "💔 Shairi";
+
+      const video =
+        res.data?.data?.video ||
+        res.data?.video ||
+        res.data?.media;
+
+      if (!video) {
+        return message.send("❌ Video পাওয়া যায়নি (API response error)");
+      }
 
       message.send({
         body: `${shairi}\n\n— SHOUROV-BOT —`,
@@ -23,6 +36,7 @@ module.exports = {
       });
 
     } catch (err) {
+      console.error(err);
       message.send("❌ Shairi আনতে সমস্যা হয়েছে");
     }
   }
