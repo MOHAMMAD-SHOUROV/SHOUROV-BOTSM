@@ -1,70 +1,69 @@
 module.exports = {
   config: {
     name: "gift",
-    version: "1.1.0",
-    author: "Shourov",
+    version: "1.1",
+    author: "Shourov (fixed)",
     role: 0,
     category: "economy",
-    guide: "{pn} @user amount | reply + {pn} amount"
+    guide: "/gift (reply) amount"
   },
 
-  onStart: async function ({ message, event, args, usersData }) {
-    const senderID = event.senderID;
+  onStart: async function ({ message, event, usersData, args }) {
+    let receiverID = null;
 
-    // amount detect
-    const amount = parseInt(args[args.length - 1]);
-    if (isNaN(amount) || amount <= 0) {
-      return message.reply(
-        "❌ Tag a user and specify a valid amount.\nExample: /gift @user 100"
-      );
-    }
-
-    // receiver detect
-    let receiverID;
-
+    // 1️⃣ Reply-based (BEST)
     if (event.messageReply) {
       receiverID = event.messageReply.senderID;
-    } else if (Object.keys(event.mentions).length > 0) {
-      receiverID = Object.keys(event.mentions)[0];
-    } else if (args[0] && !isNaN(args[0])) {
-      receiverID = args[0];
     }
 
+    // 2️⃣ Mention-based
+    else if (event.mentions && Object.keys(event.mentions).length > 0) {
+      receiverID = Object.keys(event.mentions)[0];
+    }
+
+    // ❌ No receiver
     if (!receiverID) {
       return message.reply(
-        "❌ Tag a user or reply to a message.\nExample: /gift @user 100"
+        "❌ User পাওয়া যায়নি\n\n" +
+        "✅ ব্যবহার করুন:\n" +
+        "Reply করে লিখুন → /gift 500"
       );
     }
 
+    // Amount
+    const amount = parseInt(args[0]);
+    if (!amount || amount <= 0) {
+      return message.reply("❌ সঠিক amount দিন\nExample: /gift 500");
+    }
+
+    const senderID = event.senderID;
+
     if (receiverID === senderID) {
-      return message.reply("❌ You cannot gift money to yourself.");
+      return message.reply("❌ নিজেকে টাকা দিতে পারবেন না");
     }
 
-    // get sender data
     const senderData = await usersData.get(senderID);
-    if (!senderData || (senderData.money || 0) < amount) {
-      return message.reply("❌ You don't have enough balance.");
+    const receiverData = await usersData.get(receiverID);
+
+    if (!senderData || senderData.money < amount) {
+      return message.reply("❌ আপনার balance যথেষ্ট না");
     }
 
-    // get receiver data
-    const receiverData = await usersData.get(receiverID) || { money: 0 };
-
-    // update balances
+    // Update balances
     await usersData.set(senderID, {
-      money: (senderData.money || 0) - amount,
+      money: senderData.money - amount,
       data: senderData.data
     });
 
     await usersData.set(receiverID, {
-      money: (receiverData.money || 0) + amount,
-      data: receiverData.data
+      money: (receiverData?.money || 0) + amount,
+      data: receiverData?.data || {}
     });
 
     return message.reply(
       `🎁 Gift Successful!\n\n` +
-      `💸 Sent: ${amount}\n` +
-      `👤 To: ${receiverID}\n\n` +
-      `✅ Transaction completed`
+      `➖ আপনার থেকে: ${amount}\n` +
+      `➕ Receiver পেল: ${amount}`
     );
   }
 };
