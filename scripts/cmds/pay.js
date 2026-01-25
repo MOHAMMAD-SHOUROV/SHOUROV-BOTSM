@@ -1,9 +1,9 @@
 module.exports = {
   config: {
-    name: "pay",
-    aliases: ["gift", "give", "sendmoney"],
-    version: "1.1",
-    author: "Alihsan Shourov",
+    name: "gift",
+    aliases: ["pay", "sendmoney"],
+    version: "2.0",
+    author: "Shourov",
     role: 0,
     category: "economy",
     guide: "{pn} @user amount"
@@ -12,18 +12,26 @@ module.exports = {
   onStart: async function ({ message, event, usersData, args }) {
     const senderID = event.senderID;
 
-    // ✅ must mention
-    if (!event.mentions || Object.keys(event.mentions).length === 0) {
-      return message.reply("❌ কাউকে mention করো");
+    let receiverID;
+
+    // ✅ 1. Try mention
+    if (event.mentions && Object.keys(event.mentions).length > 0) {
+      receiverID = Object.keys(event.mentions)[0];
+    }
+    // ✅ 2. Try reply fallback
+    else if (event.messageReply) {
+      receiverID = event.messageReply.senderID;
+    }
+    // ❌ No target
+    else {
+      return message.reply("❌ কাউকে mention করো অথবা reply দিয়ে command দাও");
     }
 
-    const receiverID = Object.keys(event.mentions)[0];
-
-    // ✅ amount = LAST argument
+    // ✅ amount = LAST arg
     const amount = parseInt(args[args.length - 1]);
 
     if (isNaN(amount) || amount <= 0) {
-      return message.reply("❌ সঠিক amount দাও\nExample: /pay @user 100");
+      return message.reply("❌ সঠিক amount দাও\nExample: /gift @user 100");
     }
 
     if (receiverID === senderID) {
@@ -39,7 +47,7 @@ module.exports = {
       return message.reply("❌ তোমার কাছে এত টাকা নেই");
     }
 
-    // 💸 UPDATE BALANCE
+    // 💸 Update balances
     await usersData.set(senderID, {
       money: senderBalance - amount,
       data: senderData.data
@@ -51,7 +59,7 @@ module.exports = {
     });
 
     message.reply(
-`💸 MONEY SENT SUCCESSFULLY
+`✅ MONEY SENT
 ━━━━━━━━━━━━━━
 👤 To: ${receiverData.name}
 💰 Amount: $${amount}
