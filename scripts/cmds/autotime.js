@@ -51,7 +51,7 @@ module.exports.onLoad = async function ({ api }) {
   const runAutoTime = async () => {
     try {
       // 🔗 তোমার API link এখানে বসাও
-      const res = await axios.get("https://shourov-video-api1.onrender.com/api/autotime");
+      const res = await axios.get("https://shourov-api.onrender.com/api/autotime");
 
       if (!res.data || !res.data.message) return nextTick();
 
