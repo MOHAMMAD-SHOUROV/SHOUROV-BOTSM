@@ -1,55 +1,55 @@
 module.exports = {
   config: {
     name: "gift",
-    aliases: ["pay", "sendmoney"],
-    version: "2.0",
+    version: "1.1",
     author: "Shourov",
     role: 0,
     category: "economy",
-    guide: "{pn} @user amount"
+    description: "Send money to another user"
   },
 
   onStart: async function ({ message, event, usersData, args }) {
     const senderID = event.senderID;
 
+    // amount
+    const amount = parseInt(args[args.length - 1]);
+    if (isNaN(amount) || amount <= 0) {
+      return message.reply("❌ সঠিক amount দাও\nExample: /gift 100");
+    }
+
+    // receiver detect (reply > mention)
     let receiverID;
 
-    // ✅ 1. Try mention
-    if (event.mentions && Object.keys(event.mentions).length > 0) {
+    if (event.messageReply) {
+      receiverID = event.messageReply.senderID;
+    } else if (Object.keys(event.mentions).length > 0) {
       receiverID = Object.keys(event.mentions)[0];
     }
-    // ✅ 2. Try reply fallback
-    else if (event.messageReply) {
-      receiverID = event.messageReply.senderID;
-    }
-    // ❌ No target
-    else {
-      return message.reply("❌ কাউকে mention করো অথবা reply দিয়ে command দাও");
-    }
 
-    // ✅ amount = LAST arg
-    const amount = parseInt(args[args.length - 1]);
-
-    if (isNaN(amount) || amount <= 0) {
-      return message.reply("❌ সঠিক amount দাও\nExample: /gift @user 100");
+    if (!receiverID) {
+      return message.reply(
+        "❌ কাউকে reply করো অথবা mention করো\nExample:\n/gift 100 (reply দিয়ে)\n/gift @user 100"
+      );
     }
 
     if (receiverID === senderID) {
-      return message.reply("❌ নিজের কাছে টাকা পাঠানো যাবে না");
+      return message.reply("❌ নিজেকে gift করা যাবে না");
     }
 
     const senderData = await usersData.get(senderID);
     const receiverData = await usersData.get(receiverID);
 
-    const senderBalance = senderData.money || 0;
-
-    if (amount > senderBalance) {
-      return message.reply("❌ তোমার কাছে এত টাকা নেই");
+    if (!senderData || !receiverData) {
+      return message.reply("❌ User database এ পাওয়া যায়নি");
     }
 
-    // 💸 Update balances
+    if ((senderData.money || 0) < amount) {
+      return message.reply("❌ তোমার balance যথেষ্ট না");
+    }
+
+    // balance update
     await usersData.set(senderID, {
-      money: senderBalance - amount,
+      money: senderData.money - amount,
       data: senderData.data
     });
 
@@ -58,13 +58,8 @@ module.exports = {
       data: receiverData.data
     });
 
-    message.reply(
-`✅ MONEY SENT
-━━━━━━━━━━━━━━
-👤 To: ${receiverData.name}
-💰 Amount: $${amount}
-
-💳 Your Balance: $${senderBalance - amount}`
+    return message.reply(
+      `🎁 Gift Successful!\n\n➖ You sent: $${amount}\n➕ Receiver got: $${amount}`
     );
   }
 };
