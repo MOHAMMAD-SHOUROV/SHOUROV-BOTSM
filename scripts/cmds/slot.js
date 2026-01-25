@@ -1,58 +1,99 @@
+const fs = require("fs-extra");
+const path = require("path");
 const axios = require("axios");
 
-const SLOT_GIF = "https://files.catbox.moe/c2t4m0.gif";
+const SPIN_GIF = "https://files.catbox.moe/c2t4m0.gif";
 
 module.exports = {
   config: {
     name: "slot",
     version: "3.0",
-    author: "Shourov",
+    author: "Alihsan Shourov",
     role: 0,
-    category: "game",
-    description: "Animated slot with auto unsent GIF"
+    category: "FUN & GAME",
+    shortDescription: {
+      en: "Animated Slot Machine"
+    },
+    guide: {
+      en: "{pn} <amount>"
+    }
   },
 
-  onStart: async function ({ message }) {
-    try {
-      // 1️⃣ Send spinning GIF
-      const spinMsg = await message.send({
-        body: "🎰 Slot spinning...",
-        attachment: await global.utils.getStreamFromURL(SLOT_GIF)
+  onStart: async function ({ message, event, usersData, args }) {
+    const senderID = event.senderID;
+    const bet = parseInt(args[0]);
+
+    if (isNaN(bet) || bet <= 0) {
+      return message.reply("❌ Enter a valid bet amount");
+    }
+
+    const userData = await usersData.get(senderID);
+    let balance = userData.money || 0;
+
+    if (bet > balance) {
+      return message.reply("❌ Not enough balance");
+    }
+
+    /* 🎰 SLOT SYMBOLS */
+    const symbols = ["🤍", "🖤", "💚"];
+    const spin = () => symbols[Math.floor(Math.random() * symbols.length)];
+
+    /* 🎞️ SEND SPIN GIF */
+    const spinMsg = await message.reply({
+      body: "🎰 Spinning...",
+      attachment: await global.utils.getStreamFromURL(SPIN_GIF)
+    });
+
+    /* ⏳ SPIN DELAY (animation time) */
+    setTimeout(async () => {
+      const s1 = spin();
+      const s2 = spin();
+      const s3 = spin();
+
+      let winAmount = 0;
+      let resultText = "";
+
+      /* 🧮 CALCULATION */
+      if (s1 === s2 && s2 === s3) {
+        if (s1 === "💚") {
+          winAmount = bet * 5;
+          resultText = "💎 JACKPOT!";
+        } else {
+          winAmount = bet * 3;
+          resultText = "🔥 BIG WIN!";
+        }
+      } else if (s1 === s2 || s2 === s3 || s1 === s3) {
+        winAmount = bet * 2;
+        resultText = "✨ You Won!";
+      } else {
+        winAmount = -bet;
+        resultText = "💔 You Lost!";
+      }
+
+      /* 💰 UPDATE BALANCE */
+      balance += winAmount;
+
+      await usersData.set(senderID, {
+        money: balance,
+        data: userData.data
       });
 
-      // 2️⃣ Wait for spin effect
-      await new Promise(resolve => setTimeout(resolve, 2500));
+      /* ❌ UNSEND SPIN GIF */
+      message.unsend(spinMsg.messageID);
 
-      // 3️⃣ Slot logic
-      const slots = ["🍒", "🍋", "🍉", "⭐", "💎"];
-      const s1 = slots[Math.floor(Math.random() * slots.length)];
-      const s2 = slots[Math.floor(Math.random() * slots.length)];
-      const s3 = slots[Math.floor(Math.random() * slots.length)];
+      /* 📩 FINAL RESULT MESSAGE */
+      const finalMsg =
+`🎰 SLOT RESULT
+━━━━━━━━━━━━━━
+[ ${s1} | ${s2} | ${s3} ]
 
-      let resultText = "";
-      let win = false;
+${resultText}
+${winAmount > 0 ? `➕ Won: $${winAmount}` : `➖ Lost: $${Math.abs(winAmount)}`}
+💰 Balance: $${balance}
+━━━━━━━━━━━━━━`;
 
-      if (s1 === s2 && s2 === s3) {
-        win = true;
-        resultText = `🎉 JACKPOT!\n[ ${s1} | ${s2} | ${s3} ]\n🔥 You WIN!`;
-      } else if (s1 === s2 || s2 === s3 || s1 === s3) {
-        win = true;
-        resultText = `✨ Nice!\n[ ${s1} | ${s2} | ${s3} ]\n✅ Small Win`;
-      } else {
-        resultText = `💔 Try Again!\n[ ${s1} | ${s2} | ${s3} ]\n❌ You Lost`;
-      }
+      message.reply(finalMsg);
 
-      // 4️⃣ Send result
-      await message.send(resultText);
-
-      // 5️⃣ Auto unsent spinning GIF
-      if (spinMsg?.messageID) {
-        await message.unsend(spinMsg.messageID);
-      }
-
-    } catch (err) {
-      console.error(err);
-      message.send("❌ Slot system error");
-    }
+    }, 3500); // GIF visible time
   }
 };
