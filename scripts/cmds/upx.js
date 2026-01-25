@@ -99,7 +99,7 @@ module.exports = {
 👥 Total Users   : ${totalMembersInAllGroups}
 
 👑 Oᗯᑎᗩᖇ : 𝐀𝐥𝐈𝐇𝐒𝐀𝐍 𝐒𝐇𝐎𝐔𝐑𝐎𝐕
-🐺 ᗯᑭ  : +8801613356376
+🐺 ᗯᑭ  : +8801709281334
 `;
 
       message.reply(attachment ? { body: msg, attachment } : { body: msg });
