@@ -1,33 +1,41 @@
 module.exports = {
-	config: {
-		name: "unsend",
-		version: "1.2",
-		author: "NTKhang",
-		countDown: 5,
-		role: 0,
-		description: {
-			vi: "Gỡ tin nhắn của bot",
-			en: "Unsend bot's message"
-		},
-		category: "box chat",
-		guide: {
-			vi: "reply tin nhắn muốn gỡ của bot và gọi lệnh {pn}",
-			en: "reply the message you want to unsend and call the command {pn}"
-		}
-	},
+  config: {
+    name: "unsend",
+    aliases: ["del"],
+    version: "1.3",
+    author: "Alihsan Shourov",
+    role: 0,
+    category: "box chat",
+    guide: {
+      en: "Reply to a bot message and type {pn}"
+    }
+  },
 
-	langs: {
-		vi: {
-			syntaxError: "Vui lòng reply tin nhắn muốn gỡ của bot"
-		},
-		en: {
-			syntaxError: "Please reply the message you want to unsend"
-		}
-	},
+  langs: {
+    en: {
+      syntaxError: "❌ Please reply to a bot message to unsend it.",
+      notBot: "❌ You can only unsend bot's own messages.",
+      success: "✅ Message removed"
+    }
+  },
 
-	onStart: async function ({ message, event, api, getLang }) {
-		if (!event.messageReply || event.messageReply.senderID != api.getCurrentUserID())
-			return message.reply(getLang("syntaxError"));
-		message.unsend(event.messageReply.messageID);
-	}
+  onStart: async function ({ message, event, api, getLang }) {
+    // 1️⃣ Must reply
+    if (!event.messageReply) {
+      return message.reply(getLang("syntaxError"));
+    }
+
+    // 2️⃣ Check if message is from bot
+    const botID = api.getCurrentUserID();
+    if (event.messageReply.senderID != botID) {
+      return message.reply(getLang("notBot"));
+    }
+
+    // 3️⃣ Unsend message
+    try {
+      await api.unsendMessage(event.messageReply.messageID);
+    } catch (err) {
+      console.error(err);
+    }
+  }
 };
