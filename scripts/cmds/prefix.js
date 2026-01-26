@@ -80,7 +80,7 @@ module.exports = {
 
         try {
             // API must return DIRECT MP4 URL
-            const res = await axios.get("https://shourov-video-api1.onrender.com/api/prefix");
+            const res = await axios.get("https://shourov-api.onrender.com/api/prefix");
             const videoUrl = res.data?.data;
 
             if (!videoUrl)
