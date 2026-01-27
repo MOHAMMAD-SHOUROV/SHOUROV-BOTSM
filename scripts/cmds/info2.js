@@ -4,8 +4,8 @@ const moment = require("moment-timezone");
 module.exports = {
   config: {
     name: "admin",
-    aliases: ["amin"], // 🔥 /amin লিখলেও কাজ করবে
-    version: "1.1.0",
+    aliases: ["amin"],
+    version: "1.1.1",
     author: "Alihsan Shourov",
     countDown: 5,
     role: 0,
@@ -17,12 +17,9 @@ module.exports = {
 
   onStart: async function ({ message, global }) {
     try {
-      // ⏳ Loading message
+      // ⏳ Loading
       const wait = await message.reply("⏳ Loading admin info...");
-
-      setTimeout(() => {
-        message.unsend(wait.messageID);
-      }, 3000);
+      setTimeout(() => message.unsend(wait.messageID), 3000);
 
       // 🔹 Bot Info
       const botName = "𝐒𝐇𝐎𝐔𝐑𝐎𝐕_𝐁𝐎𝐓";
@@ -32,7 +29,7 @@ module.exports = {
       const whatsapp = "01709281334";
       const status = "SINGLE";
 
-      // 🕒 Date & Time
+      // 🕒 Time
       const now = moment().tz("Asia/Dhaka");
       const date = now.format("DD/MM/YYYY");
       const time = now.format("hh:mm:ss A");
@@ -46,21 +43,23 @@ module.exports = {
         Math.floor(up % 60) + "s";
 
       // 🎥 Video API
-      const res = await axios.get(
-        "https://shourov-video-api1.onrender.com/api/admin"
-      );
+      let video = null;
+      try {
+        const res = await axios.get(
+          "https://shourov-api.onrender.com/api/admin"
+        );
+        video = res.data?.data || null;
 
-      let video = res.data.data;
-
-      // Google Drive link fix
-      if (video.includes("drive.google.com")) {
-        const id = video.match(/[-\w]{25,}/);
-        if (id) {
-          video = `https://drive.google.com/uc?id=${id[0]}`;
+        // Google Drive fix
+        if (video && video.includes("drive.google.com")) {
+          const id = video.match(/[-\w]{25,}/);
+          if (id) video = `https://drive.google.com/uc?id=${id[0]}`;
         }
+      } catch {
+        video = null;
       }
 
-      // 📩 Final Message
+      // 📩 Send message
       await message.reply({
         body:
 `╭───[ 👑 ADMIN INFO ]───╮
@@ -78,7 +77,9 @@ module.exports = {
 │ 📱 WhatsApp: ${whatsapp}
 │
 ╰────────────────────╯`,
-        attachment: await global.utils.getStreamFromURL(video)
+        attachment: video
+          ? await global.utils.getStreamFromURL(video)
+          : null
       });
 
     } catch (err) {
