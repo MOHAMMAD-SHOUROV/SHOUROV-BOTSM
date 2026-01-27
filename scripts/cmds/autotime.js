@@ -2,7 +2,7 @@ const axios = require("axios");
 
 module.exports.config = {
   name: "autotime",
-  version: "1.1.0",
+  version: "1.1.1",
   role: 0,
   author: "Alihsan Shourov",
   description: "Auto time on/off system (group wise)",
@@ -54,7 +54,8 @@ module.exports.onLoad = async function ({ api }) {
         "https://shourov-api.onrender.com/api/autotime"
       );
 
-      if (!res.data || !res.data.message) return nextTick();
+      if (!res.data || !res.data.message || !res.data.video)
+        return nextTick();
 
       const { time, message, video } = res.data;
 
@@ -64,21 +65,13 @@ module.exports.onLoad = async function ({ api }) {
 
         if (global.autotimeStatus[tid] === false) continue;
 
-        // 🎥 যদি video থাকে
-        if (video) {
-          api.sendMessage(
-            {
-              body: `⏰ ${time}\n\n${message}\n\n— SHOUROV BOT 🤖`,
-              attachment: await api.getStreamFromURL(video)
-            },
-            tid
-          );
-        } else {
-          api.sendMessage(
-            `⏰ ${time}\n\n${message}\n\n— SHOUROV BOT 🤖`,
-            tid
-          );
-        }
+        await api.sendMessage(
+          {
+            body: `⏰ ${time}\n\n${message}\n\n— SHOUROV BOT 🤖`,
+            attachment: await global.utils.getStreamFromURL(video)
+          },
+          tid
+        );
       }
 
     } catch (e) {
