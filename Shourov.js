@@ -152,36 +152,38 @@ global.utils = utils;
 	require(`./bot/login/login${NODE_ENV === 'development' ? '.dev.js' : '.js'}`);
 })();
 
-// ================== DASHBOARD (REACT BUILD) ==================
-app.use(
-  "/dashboard",
-  express.static(path.join(__dirname, "dashboard"))
-);
+// ================== DASHBOARD ==================
+app.use("/dashboard", express.static(path.join(__dirname, "dashboard")));
 
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "dashboard/index.html"));
+	res.sendFile(path.join(__dirname, "dashboard/index.html"));
 });
 
-// React router fallback
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "dashboard/index.html"));
+app.get("/appstate", (req, res) => {
+	res.sendFile(path.join(__dirname, "dashboard/appstate.html"));
 });
 
-// ================== API: SYSTEM STATS ==================
+// ================== API: STATS ==================
 app.get("/api/stats", (req, res) => {
-  const uptime = process.uptime();
-  res.json({
-    cpu: ((os.loadavg()[0] * 100) / os.cpus().length).toFixed(2),
-    memoryUsed: Math.round(process.memoryUsage().heapUsed / 1024 / 1024),
-    memoryTotal: Math.round(os.totalmem() / 1024 / 1024),
-    uptime: `${Math.floor(uptime / 3600)}h ${Math.floor(
-      (uptime % 3600) / 60
-    )}m`,
-    platform: os.platform(),
-    arch: os.arch(),
-    cpuCores: os.cpus().length,
-    nodeVersion: process.version
-  });
+	const uptime = process.uptime();
+	res.json({
+		cpu: ((os.loadavg()[0] * 100) / os.cpus().length).toFixed(2),
+		memoryUsed: Math.round(process.memoryUsage().heapUsed / 1024 / 1024),
+		uptime: `${Math.floor(uptime / 3600)}h ${Math.floor((uptime % 3600) / 60)}m`,
+		nodeVersion: process.version
+	});
+});
+
+// ================== API: APPSTATE SAVE ==================
+app.post("/api/appstate", (req, res) => {
+	const { appstate } = req.body;
+	if (!appstate) return res.status(400).json({ error: "Appstate missing" });
+
+	fs.writeFile(dirAccount, appstate, "utf8", err => {
+		if (err) return res.status(500).json({ error: "Write failed" });
+		res.json({ success: true });
+		setTimeout(() => process.exit(2), 1000);
+	});
 });
 
 // ================== SERVER START ==================
