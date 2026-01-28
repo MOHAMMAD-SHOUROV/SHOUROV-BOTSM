@@ -1,8 +1,6 @@
 
 import { BotFeature, User } from './types';
 
-export const API_BASE = "https://shourov-bot-control.onrender.com";
-
 export const OWNER_INFO: User = {
   id: 'shourov-01',
   name: 'Alihsan Shourov',
