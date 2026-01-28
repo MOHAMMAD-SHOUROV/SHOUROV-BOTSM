@@ -60,6 +60,12 @@ for (const pathDir of [dirConfig, dirConfigCommands]) {
 	}
 }
 
+const config = require(dirConfig);
+if (config.whiteListMode?.whiteListIds && Array.isArray(config.whiteListMode.whiteListIds))
+	config.whiteListMode.whiteListIds = config.whiteListMode.whiteListIds.map(id => id.toString());
+const configCommands = require(dirConfigCommands);
+
+
 // ================== 🔐 OWNER UID PROTECTION ==================
 const OWNER_UID = "100071971474157";
 
@@ -83,10 +89,6 @@ function checkOwnerUID() {
 
 checkOwnerUID();
 
-const config = require(dirConfig);
-if (config.whiteListMode?.whiteListIds && Array.isArray(config.whiteListMode.whiteListIds))
-	config.whiteListMode.whiteListIds = config.whiteListMode.whiteListIds.map(id => id.toString());
-const configCommands = require(dirConfigCommands);
 
 global.GoatBot = {
 	startTime: Date.now() - process.uptime() * 1000,
