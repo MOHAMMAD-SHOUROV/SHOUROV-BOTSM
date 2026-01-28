@@ -12,7 +12,7 @@ if (!global.temp.welcomeEvent) global.temp.welcomeEvent = {};
     const fontPath = path.join(__dirname, "cache", "tt-modernoir-trial.bold.ttf");
     if (!fs.existsSync(fontPath)) {
       console.log("⏬ Downloading welcome font...");
-      const fontUrl = "https://github.com/MR-MAHABUB-004/MAHABUB-BOT-STORAGE/raw/main/fronts/tt-modernoir-trial.bold.ttf";
+      const fontUrl = "https://github.com/MOHAMMAD-SHOUROV/SHOUROV-BOT-STORAGE/raw/main/fronts/tt-modernoir-trial.bold.ttf";
       const { data } = await axios.get(fontUrl, { responseType: "arraybuffer" });
       await fs.outputFile(fontPath, data);
       console.log("✅ Font downloaded");
@@ -100,12 +100,7 @@ ${nickname}☔︎ 𝗖𝗢𝗡𝗡𝗘𝗖𝗧𝗘𝗗 𝗦𝗨𝗖𝗖𝗘𝗦�
 
       // Random backgrounds
       const backgrounds = [
-        "https://files.catbox.moe/cj68oa.jpg",
-        "https://files.catbox.moe/0n8mmb.jpg",
-        "https://files.catbox.moe/hvynlb.jpg",
-        "https://files.catbox.moe/leyeuq.jpg",
-        "https://files.catbox.moe/7ufcfb.jpg",
-        "https://files.catbox.moe/y78bmv.jpg"
+        "https://files.catbox.moe/bv0eep.gif"
       ];
       const randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
 
