@@ -1,0 +1,20 @@
+const fs = require("fs");
+const login = require("../../fb-chat-api");
+
+module.exports.loginFB = (req, res) => {
+  const { email, password, mode } = req.body;
+
+  login({ email, password }, (err, api) => {
+    if (err) return res.json({ success: false, error: err });
+
+    const cookie = JSON.stringify(api.getAppState(), null, 2);
+
+    if (mode === "dev") {
+      fs.writeFileSync("Shourov.dev.txt", cookie);
+    } else {
+      fs.writeFileSync("Shourov.txt", cookie);
+    }
+
+    res.json({ success: true });
+  });
+};
