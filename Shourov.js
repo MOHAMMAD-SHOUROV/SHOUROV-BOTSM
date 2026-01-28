@@ -12,6 +12,7 @@ const port = process.env.PORT || 7177;
 const { execSync } = require('child_process');
 const log = require('./logger/log.js');
 const path = require("path");
+const os = require("os");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -57,14 +58,6 @@ for (const pathDir of [dirConfig, dirConfigCommands]) {
 		log.error("CONFIG", `Invalid JSON file "${pathDir.replace(__dirname, "")}":\n${err.message.split("\n").map(line => `  ${line}`).join("\n")}\nPlease fix it and restart bot`);
 		process.exit(0);
 	}
-}
-
-// ================== LOAD CONFIG ==================
-const config = require(dirConfig);
-const configCommands = require(dirConfigCommands);
-
-if (config.whiteListMode?.whiteListIds && Array.isArray(config.whiteListMode.whiteListIds)) {
-	config.whiteListMode.whiteListIds = config.whiteListMode.whiteListIds.map(String);
 }
 
 // ================== 🔐 OWNER UID PROTECTION ==================
