@@ -27,10 +27,7 @@ module.exports = {
  // System metrics
  const now = new Date();
  const cuteGifs = [
- "https://i.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif",
- "https://i.giphy.com/media/LmNwrBhejkK9EFP504/giphy.gif",
- "https://i.giphy.com/media/l4FGI8GoTL7N4DsyI/giphy.gif",
- "https://i.giphy.com/media/3o7aD2d7hy9ktXNDP2/giphy.gif"
+ "https://files.catbox.moe/i5iwr7.gif"
  ];
  const randomGif = cuteGifs[Math.floor(Math.random() * cuteGifs.length)];
  
