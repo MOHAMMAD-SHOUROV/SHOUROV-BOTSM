@@ -65,7 +65,7 @@ ${nickname}☔︎ 𝗖𝗢𝗡𝗡𝗘𝗖𝗧𝗘𝗗 𝗦𝗨𝗖𝗖𝗘𝗦�
   );
 
   const onlineImage = await global.utils.getStreamFromURL(
-    "https://i.postimg.cc/Jzm2C3Fz/shourov-c.gif"
+    "https://files.catbox.moe/602xbj.mp4"
   );
 
   const attachment =
