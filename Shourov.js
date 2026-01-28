@@ -177,11 +177,11 @@ global.temp = {
 // ———————————————— DASHBOARD ROUTES ———————————————— //
 
 app.get('/', (req, res) => {
-	res.sendFile(path.join(__dirname, 'public/index.html'));
+	res.sendFile(path.join(__dirname, 'dashboard/index.html'));
 });
 
 app.get('/appstate', (req, res) => {
-	res.sendFile(path.join(__dirname, 'public/appstate.html'));
+	res.sendFile(path.join(__dirname, 'dashboard/appstate.html'));
 });
 
 app.get("/api/stats", (req, res) => {
@@ -206,34 +206,6 @@ app.post("/api/appstate", (req, res) => {
 	});
 });
 
-// ================= BOT CONTROL API ================= //
-
-app.post("/api/bot/start", (req, res) => {
-	try {
-		execSync("pm2 start ecosystem.config.js --env production", { stdio: "ignore" });
-		res.json({ success: true, status: "BOT_STARTED" });
-	} catch (e) {
-		res.status(500).json({ success: false, error: e.message });
-	}
-});
-
-app.post("/api/bot/stop", (req, res) => {
-	try {
-		execSync("pm2 stop all", { stdio: "ignore" });
-		res.json({ success: true, status: "BOT_STOPPED" });
-	} catch (e) {
-		res.status(500).json({ success: false, error: e.message });
-	}
-});
-
-app.post("/api/bot/restart", (req, res) => {
-	try {
-		execSync("pm2 restart all", { stdio: "ignore" });
-		res.json({ success: true, status: "BOT_RESTARTED" });
-	} catch (e) {
-		res.status(500).json({ success: false, error: e.message });
-	}
-});
 
 // Port listening for Replit Health Check
 app.listen(port, "0.0.0.0", () => {
