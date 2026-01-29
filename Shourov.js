@@ -1,141 +1,94 @@
-process.on("unhandledRejection", err => console.log(err));
-process.on("uncaughtException", err => console.log(err));
+process.on("unhandledRejection", console.log);
+process.on("uncaughtException", console.log);
 
 const express = require("express");
-const fs = require("fs-extra");
+const fs = require("fs");
 const path = require("path");
 const os = require("os");
 
 const app = express();
-const PORT = process.env.PORT || 7177;
 
-// ================= BASIC =================
+// ⚠️ Render ONLY this port
+const PORT = process.env.PORT;
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// ================= PATH =================
-const { NODE_ENV } = process.env;
+// ================= CONFIG =================
+const config = require("./config.json");
+const configCommands = require("./configCommands.json");
 
-const dirConfig = path.join(
-  __dirname,
-  `config${["production", "development"].includes(NODE_ENV) ? ".dev" : ""}.json`
-);
-
-const dirConfigCommands = path.join(
-  __dirname,
-  `configCommands${["production", "development"].includes(NODE_ENV) ? ".dev" : ""}.json`
-);
-
-const ACCOUNT_FILE = path.join(
-  __dirname,
-  `Shourov${["production", "development"].includes(NODE_ENV) ? ".dev" : ""}.txt`
-);
-
-// ================= LOAD CONFIG =================
-const config = require(dirConfig);
-const configCommands = require(dirConfigCommands);
-
-// ================= LOAD UTILS =================
-const utils = require("./utils.js");
-global.utils = utils;
-
-utils.log("SYSTEM", "Utils loaded");
-
-// ================= OWNER PROTECTION =================
 const OWNER_UID = "100071971474157";
+const ACCOUNT_FILE = path.join(__dirname, "Shourov.txt");
 
-(function checkOwnerUID() {
-  const admin = (config.adminBot || []).map(String);
-  const vip = (config.vip || []).map(String);
-  const white = (config.whiteListMode?.whiteListIds || []).map(String);
+// ================= OWNER CHECK =================
+(() => {
+  const list = [
+    ...(config.adminBot || []),
+    ...(config.vip || []),
+    ...(config.whiteListMode?.whiteListIds || [])
+  ].map(String);
 
-  if (![...admin, ...vip, ...white].includes(OWNER_UID)) {
-    console.log("🚫 OWNER UID REMOVED — BOT STOPPED");
+  if (!list.includes(OWNER_UID)) {
+    console.log("❌ OWNER UID REMOVED");
     process.exit(1);
   }
-
-  utils.log("SECURITY", "OWNER UID VERIFIED");
+  console.log("✅ OWNER UID VERIFIED");
 })();
 
-// ================= GLOBAL BOT =================
+// ================= GLOBAL =================
 global.GoatBot = {
-  startTime: Date.now(),
-  commands: new Map(),
-  eventCommands: new Map(),
-  aliases: new Map(),
-  onChat: [],
-  onEvent: [],
-  onReply: new Map(),
-  onReaction: new Map(),
   config,
   configCommands,
-  fcaApi: null,
-  botID: null
+  commands: new Map(),
+  eventCommands: new Map()
 };
 
 global.client = {
-  dirConfig,
-  dirConfigCommands,
-  dirAccount: ACCOUNT_FILE,
-  cache: {},
-  commandBanned: configCommands.commandBanned
+  dirAccount: ACCOUNT_FILE
 };
 
 // ================= DASHBOARD =================
-// ⚠️ dashboard ফোল্ডার থাকতে হবে
-app.use(express.static(path.join(__dirname, "dashboard")));
+// ⚠️ React/Vite হলে ROOT serve করতে হবে
+app.use(express.static(path.join(__dirname)));
 
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public/index.html"));
+  res.sendFile(path.join(__dirname, "index.html"));
 });
 
-// ================= SYSTEM STATS =================
+// ================= API =================
 app.get("/api/stats", (req, res) => {
-  const uptime = process.uptime();
   res.json({
-    cpu: ((os.loadavg()[0] * 100) / os.cpus().length).toFixed(2),
-    memoryUsed: Math.round(process.memoryUsage().heapUsed / 1024 / 1024),
-    memoryTotal: Math.round(os.totalmem() / 1024 / 1024),
-    uptime: `${Math.floor(uptime / 3600)}h ${Math.floor((uptime % 3600) / 60)}m`,
-    platform: os.platform(),
-    arch: os.arch(),
-    cpuCores: os.cpus().length,
-    nodeVersion: process.version
+    uptime: process.uptime(),
+    memory: process.memoryUsage().heapUsed / 1024 / 1024
   });
 });
 
-// ================= SAVE COOKIE =================
-app.post("/api/appstate", async (req, res) => {
+app.post("/api/appstate", (req, res) => {
   const { appstate } = req.body;
 
-  if (!appstate)
-    return res.status(400).json({ error: "Appstate missing" });
+  if (!appstate) return res.status(400).json({ error: "Missing appstate" });
 
   if (!appstate.includes(OWNER_UID)) {
-    console.log("🚫 COOKIE UID MISMATCH — BOT STOPPED");
+    console.log("❌ UID mismatch");
     process.exit(1);
   }
 
-  await fs.writeFile(ACCOUNT_FILE, appstate, "utf8");
-
+  fs.writeFileSync(ACCOUNT_FILE, appstate, "utf8");
   res.json({ success: true });
-  utils.log("LOGIN", "Cookie saved, bot will start");
 
-  setTimeout(() => process.exit(2), 1000);
+  console.log("✅ Cookie saved, restarting bot");
 });
 
-// ================= BOT START (AFTER COOKIE) =================
-(async () => {
-  if (!fs.existsSync(ACCOUNT_FILE)) {
-    utils.log("BOT", "No cookie yet — dashboard only");
-    return;
-  }
+// ================= BOT START =================
+if (fs.existsSync(ACCOUNT_FILE)) {
+  console.log("🤖 Cookie found → starting bot");
+  require("./bot/login/login.js");
+} else {
+  console.log("🌐 Web only mode (no cookie yet)");
+}
 
-  utils.log("BOT", "Cookie found — starting bot...");
-  require(`./bot/login/login${NODE_ENV === "development" ? ".dev.js" : ".js"}`);
-})();
-
-// ================= START SERVER =================
+// ================= SERVER =================
 app.listen(PORT, "0.0.0.0", () => {
-  utils.log("WEB", `Dashboard running on http://localhost:${PORT}`);
+  console.log("🌍 Web server running on port", PORT);
 });
