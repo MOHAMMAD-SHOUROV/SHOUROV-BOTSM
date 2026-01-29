@@ -86,7 +86,7 @@ global.client = {
 app.use(express.static(path.join(__dirname, "dashboard")));
 
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "dashboard/index.html"));
+  res.sendFile(path.join(__dirname, "public/index.html"));
 });
 
 // ================= SYSTEM STATS =================
