@@ -87,9 +87,12 @@ const utils = require("./utils.js");
 global.utils = utils;
 
 // ================== DASHBOARD (STATIC) ==================
-// dashboard folder এর ভিতরে index.html থাকবে
-app.use("/", express.static(path.join(__dirname, "public")));
+// ================== STATIC FILES ==================
 
+// dashboard এর সব js/css/assets serve করবে
+app.use("/dashboard", express.static(path.join(__dirname, "dashboard")));
+
+// শুধু main index.html public থেকে যাবে
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public/index.html"));
 });
