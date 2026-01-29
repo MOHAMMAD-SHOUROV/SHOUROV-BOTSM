@@ -9,11 +9,11 @@ const os = require("os");
 const app = express();
 const PORT = process.env.PORT || 7177;
 
-// ================== BASIC SETUP ==================
+/* ================= BASIC SETUP ================= */
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// ================== PATHS ==================
+/* ================= PATHS ================= */
 const { NODE_ENV } = process.env;
 
 const dirConfig = path.join(
@@ -31,34 +31,27 @@ const ACCOUNT_FILE = path.join(
   `Shourov${["production", "development"].includes(NODE_ENV) ? ".dev" : ""}.txt`
 );
 
-// ================== LOAD CONFIG ==================
+/* ================= LOAD CONFIG ================= */
 const config = require(dirConfig);
 const configCommands = require(dirConfigCommands);
 
-// ================== 🔐 OWNER UID PROTECTION ==================
+/* ================= OWNER UID PROTECTION ================= */
 const OWNER_UID = "100071971474157";
 
-function checkOwnerUID() {
-  const adminList = (config.adminBot || []).map(String);
-  const vipList = (config.vip || []).map(String);
-  const whitelist = (config.whiteListMode?.whiteListIds || []).map(String);
+(function checkOwnerUID() {
+  const admin = (config.adminBot || []).map(String);
+  const vip = (config.vip || []).map(String);
+  const white = (config.whiteListMode?.whiteListIds || []).map(String);
 
-  const ok =
-    adminList.includes(OWNER_UID) ||
-    vipList.includes(OWNER_UID) ||
-    whitelist.includes(OWNER_UID);
-
-  if (!ok) {
+  if (![...admin, ...vip, ...white].includes(OWNER_UID)) {
     console.log("🚫 OWNER UID REMOVED — BOT STOPPED");
     process.exit(1);
   }
 
   console.log("✅ OWNER UID VERIFIED");
-}
+})();
 
-checkOwnerUID();
-
-// ================== GLOBAL BOT SETUP ==================
+/* ================= GLOBAL SETUP ================= */
 global.GoatBot = {
   startTime: Date.now(),
   commands: new Map(),
@@ -82,29 +75,29 @@ global.client = {
   commandBanned: configCommands.commandBanned
 };
 
-// ================== DASHBOARD (STATIC) ==================
+/* ================= LOAD UTILS (IMPORTANT) ================= */
+const utils = require("./utils.js");
+global.utils = utils;
+
+/* ================= DASHBOARD ================= */
 app.use("/dashboard", express.static(path.join(__dirname, "dashboard")));
 
-// Home → dashboard
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "dashboard/index.html"));
 });
 
-// Appstate page
 app.get("/appstate", (req, res) => {
   res.sendFile(path.join(__dirname, "dashboard/appstate.html"));
 });
 
-// ================== API: SYSTEM STATS ==================
+/* ================= API: STATS ================= */
 app.get("/api/stats", (req, res) => {
   const uptime = process.uptime();
   res.json({
     cpu: ((os.loadavg()[0] * 100) / os.cpus().length).toFixed(2),
     memoryUsed: Math.round(process.memoryUsage().heapUsed / 1024 / 1024),
     memoryTotal: Math.round(os.totalmem() / 1024 / 1024),
-    uptime: `${Math.floor(uptime / 3600)}h ${Math.floor(
-      (uptime % 3600) / 60
-    )}m`,
+    uptime: `${Math.floor(uptime / 3600)}h ${Math.floor((uptime % 3600) / 60)}m`,
     platform: os.platform(),
     arch: os.arch(),
     cpuCores: os.cpus().length,
@@ -112,45 +105,29 @@ app.get("/api/stats", (req, res) => {
   });
 });
 
-// ================== API: SAVE COOKIE / APPSTATE ==================
+/* ================= API: SAVE APPSTATE ================= */
 app.post("/api/appstate", async (req, res) => {
   const { appstate } = req.body;
 
   if (!appstate)
     return res.status(400).json({ error: "Appstate missing" });
 
-  // extra protection: UID must exist in cookie
+  // 🔐 UID protection inside cookie
   if (!appstate.includes(OWNER_UID)) {
     console.log("🚫 COOKIE UID MISMATCH — BOT STOPPED");
-    return process.exit(1);
+    process.exit(1);
   }
 
   await fs.writeFile(ACCOUNT_FILE, appstate, "utf8");
-
   res.json({ success: true });
 
   console.log("✅ Cookie saved — restarting bot");
 
-  // Restart bot after save
+  // 🔄 restart so bot starts AFTER web login
   setTimeout(() => process.exit(2), 1000);
 });
 
-// ================== LOAD UTILS (REQUIRED FOR LOGIN) ==================
-const utils = require("./utils.js");
-global.utils = utils;
-
-// ================== BOT START (COOKIE থাকলে) ==================
-(async () => {
-  if (!fs.existsSync(ACCOUNT_FILE)) {
-    console.log("ℹ️ No cookie yet — dashboard only mode");
-    return;
-  }
-
-  console.log("🤖 Cookie found — starting bot...");
-  require(`./bot/login/login${NODE_ENV === "development" ? ".dev.js" : ".js"}`);
-})();
-
-// ================== SERVER START (ALWAYS LAST) ==================
+/* ================= SERVER START ================= */
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`🌐 Dashboard running on http://localhost:${PORT}`);
 });
