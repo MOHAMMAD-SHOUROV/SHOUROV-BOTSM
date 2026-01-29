@@ -1,94 +1,142 @@
-process.on("unhandledRejection", console.log);
-process.on("uncaughtException", console.log);
+process.on("unhandledRejection", err => console.log(err));
+process.on("uncaughtException", err => console.log(err));
 
 const express = require("express");
-const fs = require("fs");
+const fs = require("fs-extra");
 const path = require("path");
 const os = require("os");
 
 const app = express();
+const PORT = process.env.PORT || 7177;
 
-// ⚠️ Render ONLY this port
-const PORT = process.env.PORT;
-
-app.use(express.json());
+// ================== BASIC SETUP ==================
+app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
 
-// ================= CONFIG =================
-const config = require("./config.json");
-const configCommands = require("./configCommands.json");
+// ================== ENV & PATHS ==================
+const { NODE_ENV } = process.env;
 
+const dirConfig = path.join(
+  __dirname,
+  `config${["production", "development"].includes(NODE_ENV) ? ".dev" : ""}.json`
+);
+
+const dirConfigCommands = path.join(
+  __dirname,
+  `configCommands${["production", "development"].includes(NODE_ENV) ? ".dev" : ""}.json`
+);
+
+const ACCOUNT_FILE = path.join(
+  __dirname,
+  `Shourov${["production", "development"].includes(NODE_ENV) ? ".dev" : ""}.txt`
+);
+
+// ================== LOAD CONFIG ==================
+const config = require(dirConfig);
+const configCommands = require(dirConfigCommands);
+
+// ================== 🔐 OWNER UID PROTECTION ==================
 const OWNER_UID = "100071971474157";
-const ACCOUNT_FILE = path.join(__dirname, "Shourov.txt");
 
-// ================= OWNER CHECK =================
-(() => {
-  const list = [
-    ...(config.adminBot || []),
-    ...(config.vip || []),
-    ...(config.whiteListMode?.whiteListIds || [])
-  ].map(String);
+function checkOwnerUID() {
+  const adminList = (config.adminBot || []).map(String);
+  const vipList = (config.vip || []).map(String);
+  const whitelist = (config.whiteListMode?.whiteListIds || []).map(String);
 
-  if (!list.includes(OWNER_UID)) {
-    console.log("❌ OWNER UID REMOVED");
+  const ok =
+    adminList.includes(OWNER_UID) ||
+    vipList.includes(OWNER_UID) ||
+    whitelist.includes(OWNER_UID);
+
+  if (!ok) {
+    console.log("🚫 OWNER UID REMOVED FROM CONFIG — BOT STOPPED");
     process.exit(1);
   }
-  console.log("✅ OWNER UID VERIFIED");
-})();
 
-// ================= GLOBAL =================
+  console.log("✅ OWNER UID VERIFIED");
+}
+
+checkOwnerUID();
+
+// ================== GLOBAL BOT SETUP ==================
 global.GoatBot = {
+  startTime: Date.now(),
+  commands: new Map(),
+  eventCommands: new Map(),
+  aliases: new Map(),
+  onChat: [],
+  onEvent: [],
+  onReply: new Map(),
+  onReaction: new Map(),
   config,
   configCommands,
-  commands: new Map(),
-  eventCommands: new Map()
+  fcaApi: null,
+  botID: null
 };
 
 global.client = {
-  dirAccount: ACCOUNT_FILE
+  dirConfig,
+  dirConfigCommands,
+  dirAccount: ACCOUNT_FILE,
+  cache: {},
+  commandBanned: configCommands.commandBanned
 };
 
-// ================= DASHBOARD =================
-// ⚠️ React/Vite হলে ROOT serve করতে হবে
-app.use(express.static(path.join(__dirname)));
+// ================== LOAD UTILS (REQUIRED) ==================
+const utils = require("./utils.js");
+global.utils = utils;
+
+// ================== DASHBOARD (STATIC) ==================
+// dashboard folder এর ভিতরে index.html থাকবে
+app.use("/", express.static(path.join(__dirname, "public")));
 
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "index.html"));
+  res.sendFile(path.join(__dirname, "public/index.html"));
 });
 
-// ================= API =================
+// ================== API: SYSTEM STATS ==================
 app.get("/api/stats", (req, res) => {
+  const uptime = process.uptime();
   res.json({
-    uptime: process.uptime(),
-    memory: process.memoryUsage().heapUsed / 1024 / 1024
+    cpu: ((os.loadavg()[0] * 100) / os.cpus().length).toFixed(2),
+    memoryUsed: Math.round(process.memoryUsage().heapUsed / 1024 / 1024),
+    memoryTotal: Math.round(os.totalmem() / 1024 / 1024),
+    uptime: `${Math.floor(uptime / 3600)}h ${Math.floor(
+      (uptime % 3600) / 60
+    )}m`,
+    platform: os.platform(),
+    nodeVersion: process.version
   });
 });
 
-app.post("/api/appstate", (req, res) => {
+// ================== API: SAVE APPSTATE (NO UID CHECK) ==================
+app.post("/api/appstate", async (req, res) => {
   const { appstate } = req.body;
 
-  if (!appstate) return res.status(400).json({ error: "Missing appstate" });
-
-  if (!appstate.includes(OWNER_UID)) {
-    console.log("❌ UID mismatch");
-    process.exit(1);
+  if (!appstate) {
+    return res.status(400).json({ error: "Appstate missing" });
   }
 
-  fs.writeFileSync(ACCOUNT_FILE, appstate, "utf8");
+  await fs.writeFile(ACCOUNT_FILE, appstate, "utf8");
+
   res.json({ success: true });
 
-  console.log("✅ Cookie saved, restarting bot");
+  console.log("✅ Appstate saved — restarting bot");
+  setTimeout(() => process.exit(2), 1000);
 });
 
-// ================= BOT START =================
-if (fs.existsSync(ACCOUNT_FILE)) {
-  console.log("🤖 Cookie found → starting bot");
-  require("./bot/login/login.js");
-} else {
-  console.log("🌐 Web only mode (no cookie yet)");
-}
+// ================== BOT START (COOKIE থাকলে) ==================
+(async () => {
+  if (!fs.existsSync(ACCOUNT_FILE)) {
+    console.log("ℹ️ No appstate yet — dashboard only mode");
+    return;
+  }
 
-// ================= SERVER =================
+  console.log("🤖 Appstate found — starting bot...");
+  require(`./bot/login/login${NODE_ENV === "development" ? ".dev.js" : ".js"}`);
+})();
+
+// ================== SERVER START (ALWAYS LAST) ==================
 app.listen(PORT, "0.0.0.0", () => {
-  console.log("🌍 Web server running on port", PORT);
+  console.log(`🌐 Dashboard running on http://localhost:${PORT}`);
 });
