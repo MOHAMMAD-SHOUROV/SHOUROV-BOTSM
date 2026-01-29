@@ -90,11 +90,11 @@ global.utils = utils;
 // ================== STATIC FILES ==================
 
 // dashboard এর সব js/css/assets serve করবে
-app.use("/dashboard", express.static(path.join(__dirname, "dashboard")));
+app.use("/dashboard/dist", express.static(path.join(__dirname, "dashboard/dist")));
 
 // শুধু main index.html public থেকে যাবে
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public/index.html"));
+  res.sendFile(path.join(__dirname, "dashboard/dist/index.html"));
 });
 
 // ================== API: SYSTEM STATS ==================
