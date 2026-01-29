@@ -135,6 +135,10 @@ app.post("/api/appstate", async (req, res) => {
   setTimeout(() => process.exit(2), 1000);
 });
 
+// ================== LOAD UTILS (REQUIRED FOR LOGIN) ==================
+const utils = require("./utils.js");
+global.utils = utils;
+
 // ================== BOT START (COOKIE থাকলে) ==================
 (async () => {
   if (!fs.existsSync(ACCOUNT_FILE)) {
