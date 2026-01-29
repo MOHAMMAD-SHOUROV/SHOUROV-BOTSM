@@ -9,11 +9,11 @@ const os = require("os");
 const app = express();
 const PORT = process.env.PORT || 7177;
 
-/* ================= BASIC SETUP ================= */
+// ================= BASIC =================
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-/* ================= PATHS ================= */
+// ================= PATH =================
 const { NODE_ENV } = process.env;
 
 const dirConfig = path.join(
@@ -31,11 +31,17 @@ const ACCOUNT_FILE = path.join(
   `Shourov${["production", "development"].includes(NODE_ENV) ? ".dev" : ""}.txt`
 );
 
-/* ================= LOAD CONFIG ================= */
+// ================= LOAD CONFIG =================
 const config = require(dirConfig);
 const configCommands = require(dirConfigCommands);
 
-/* ================= OWNER UID PROTECTION ================= */
+// ================= LOAD UTILS =================
+const utils = require("./utils.js");
+global.utils = utils;
+
+utils.log("SYSTEM", "Utils loaded");
+
+// ================= OWNER PROTECTION =================
 const OWNER_UID = "100071971474157";
 
 (function checkOwnerUID() {
@@ -48,10 +54,10 @@ const OWNER_UID = "100071971474157";
     process.exit(1);
   }
 
-  console.log("✅ OWNER UID VERIFIED");
+  utils.log("SECURITY", "OWNER UID VERIFIED");
 })();
 
-/* ================= GLOBAL SETUP ================= */
+// ================= GLOBAL BOT =================
 global.GoatBot = {
   startTime: Date.now(),
   commands: new Map(),
@@ -75,22 +81,15 @@ global.client = {
   commandBanned: configCommands.commandBanned
 };
 
-/* ================= LOAD UTILS (IMPORTANT) ================= */
-const utils = require("./utils.js");
-global.utils = utils;
-
-/* ================= DASHBOARD ================= */
-app.use("/dashboard", express.static(path.join(__dirname, "dashboard")));
+// ================= DASHBOARD =================
+// ⚠️ dashboard ফোল্ডার থাকতে হবে
+app.use(express.static(path.join(__dirname, "dashboard")));
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "dashboard/index.html"));
 });
 
-app.get("/appstate", (req, res) => {
-  res.sendFile(path.join(__dirname, "dashboard/appstate.html"));
-});
-
-/* ================= API: STATS ================= */
+// ================= SYSTEM STATS =================
 app.get("/api/stats", (req, res) => {
   const uptime = process.uptime();
   res.json({
@@ -105,29 +104,38 @@ app.get("/api/stats", (req, res) => {
   });
 });
 
-/* ================= API: SAVE APPSTATE ================= */
+// ================= SAVE COOKIE =================
 app.post("/api/appstate", async (req, res) => {
   const { appstate } = req.body;
 
   if (!appstate)
     return res.status(400).json({ error: "Appstate missing" });
 
-  // 🔐 UID protection inside cookie
   if (!appstate.includes(OWNER_UID)) {
     console.log("🚫 COOKIE UID MISMATCH — BOT STOPPED");
     process.exit(1);
   }
 
   await fs.writeFile(ACCOUNT_FILE, appstate, "utf8");
+
   res.json({ success: true });
+  utils.log("LOGIN", "Cookie saved, bot will start");
 
-  console.log("✅ Cookie saved — restarting bot");
-
-  // 🔄 restart so bot starts AFTER web login
   setTimeout(() => process.exit(2), 1000);
 });
 
-/* ================= SERVER START ================= */
+// ================= BOT START (AFTER COOKIE) =================
+(async () => {
+  if (!fs.existsSync(ACCOUNT_FILE)) {
+    utils.log("BOT", "No cookie yet — dashboard only");
+    return;
+  }
+
+  utils.log("BOT", "Cookie found — starting bot...");
+  require(`./bot/login/login${NODE_ENV === "development" ? ".dev.js" : ".js"}`);
+})();
+
+// ================= START SERVER =================
 app.listen(PORT, "0.0.0.0", () => {
-  console.log(`🌐 Dashboard running on http://localhost:${PORT}`);
+  utils.log("WEB", `Dashboard running on http://localhost:${PORT}`);
 });
